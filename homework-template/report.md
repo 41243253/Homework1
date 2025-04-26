@@ -62,7 +62,40 @@ void printMemoryUsage() {
     cout<<"----------------------------------------------------------"<<endl;
 }
 ```
+以下為主程式的程式碼:
+```cpp
+int main(void)
+{
+    printMemoryUsage();
+    int n;
+    cout << "請輸入要幾筆測資:";
+    cin >> n;
+    int* arr = new int[n + 1]; // arr[0] 是哨兵位，1~n 為資料
+    int temp = n;
+    // 產生隨機數n~1
+    for (int i = 1; i <= n; i++)
+    {
+        arr[i] = temp;
+        temp -= 1;
+    }
 
+    printMemoryUsage();
+    // 開始計時
+    auto start = steady_clock::now();
+
+    InsertionSort(arr, n);
+
+    // 結束計時
+    auto end = steady_clock::now();
+    auto duration = duration_cast<microseconds>(end - start);
+
+    cout << "耗時：" << duration.count() << " 毫秒" << endl;
+
+    delete[] arr;
+    printMemoryUsage();
+    return 0;
+}
+```
 ## 效能分析
 
 1. 時間複雜度：程式的時間複雜度為 $O(\log n)$。
