@@ -1,13 +1,13 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-#include <chrono>  // ®É¶¡´ú¶q¥\¯à
+#include <chrono>  // æ™‚é–“æ¸¬é‡åŠŸèƒ½
 #include <Windows.h>
 #include <Psapi.h>
 using namespace std;
-using namespace chrono; // ¤è«K¨Ï¥Î steady_clock
+using namespace chrono; // æ–¹ä¾¿ä½¿ç”¨ steady_clock
 
-//´¡¤J¤¸¯À¨ì¤w¸g±Æ§Ç¦nªº¦ê¦C¤¤
+//æ’å…¥å…ƒç´ åˆ°å·²ç¶“æ’åºå¥½çš„ä¸²åˆ—ä¸­
 template <class T>
 void Insert(const T& e, T* a, int i)
 {
@@ -20,7 +20,7 @@ void Insert(const T& e, T* a, int i)
     a[i + 1] = e;
 }
 
-//´¡¤J±Æ§Çªk
+//æ’å…¥æ’åºæ³•
 template <class T>
 void InsertionSort(T* a, const int n)
 {
@@ -31,7 +31,7 @@ void InsertionSort(T* a, const int n)
     }
 }
 
-//Åã¥Ü°O¾ĞÅé¨Ï¥Îµ{«×
+//é¡¯ç¤ºè¨˜æ†¶é«”ä½¿ç”¨ç¨‹åº¦
 void printMemoryUsage() {
     PROCESS_MEMORY_COUNTERS memInfo;
     GetProcessMemoryInfo(GetCurrentProcess(), &memInfo, sizeof(memInfo));
@@ -40,16 +40,16 @@ void printMemoryUsage() {
     cout<<"Working Set Size: "<<memInfo.WorkingSetSize / 1024 << " KB" << endl;
     cout<<"----------------------------------------------------------"<<endl;
 }
-//¥Dµ{¦¡
+//ä¸»ç¨‹å¼
 int main(void)
 {
     printMemoryUsage();
     int n;
-    cout << "½Ğ¿é¤J­n´Xµ§´ú¸ê:";
+    cout << "è«‹è¼¸å…¥è¦å¹¾ç­†æ¸¬è³‡:";
     cin >> n;
-    int* arr = new int[n + 1]; // arr[0] ¬O­ï§L¦ì¡A1~n ¬°¸ê®Æ
+    int* arr = new int[n + 1]; // arr[0] æ˜¯å“¨å…µä½ï¼Œ1~n ç‚ºè³‡æ–™
     int temp = n;
-    // ²£¥ÍÀH¾÷¼Æn~1
+    // ç”¢ç”Ÿéš¨æ©Ÿæ•¸n~1
     for (int i = 1; i <= n; i++)
     {
         arr[i] = temp;
@@ -57,16 +57,16 @@ int main(void)
     }
 
     printMemoryUsage();
-    // ¶}©l­p®É
+    // é–‹å§‹è¨ˆæ™‚
     auto start = steady_clock::now();
 
     InsertionSort(arr, n);
 
-    // µ²§ô­p®É
+    // çµæŸè¨ˆæ™‚
     auto end = steady_clock::now();
     auto duration = duration_cast<microseconds>(end - start);
 
-    cout << "¯Ó®É¡G" << duration.count() << " ²@¬í" << endl;
+    cout << "è€—æ™‚ï¼š" << duration.count() << " å¾®ç§’" << endl;
 
     delete[] arr;
     printMemoryUsage();
