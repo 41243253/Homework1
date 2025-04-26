@@ -4,7 +4,8 @@
 
 ## 解題說明
 
-本題要求實現一個遞迴函式，計算從 $1$ 到 $n$ 的連加總和。
+本題要求實現Insertion sort,Quick sort,Merge sort和Heap sort的
+Worst case和Average case所耗費的時間，並計算其空間複雜度
 
 ### 解題策略
 
