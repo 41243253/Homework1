@@ -89,7 +89,7 @@ int main(void)
     auto end = steady_clock::now();
     auto duration = duration_cast<microseconds>(end - start);
 
-    cout << "耗時：" << duration.count() << " 毫秒" << endl;
+    cout << "耗時：" << duration.count() << " 微秒" << endl;
 
     delete[] arr;
     printMemoryUsage();
