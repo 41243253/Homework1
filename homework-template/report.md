@@ -8,32 +8,58 @@
 本題要求實現Insertion sort,Quick sort,Merge sort和Heap sort的
 Worst case和Average case所耗費的時間，並計算其空間複雜度
 
-### 解題策略
+### Insertion sort 解題策略
 
-1. 使用遞迴函式將問題拆解為更小的子問題：
-   $$\Sigma(n) = n + \Sigma(n-1)$$
-2. 當 $n \leq 1$ 時，返回 $n$ 作為遞迴的結束條件。  
-3. 主程式呼叫遞迴函式，並輸出計算結果。
+1. 輸入測資數量後產生測試資料
+2. 根據選擇的case產生對應case的耗費時間  
+3. 將測試資料插入陣列中並做排序
+4. 排序後輸出花費的時間
 
 ## 程式實作
 
-以下為主要程式碼：
+以下為標頭與函式的程式碼：
 
 ```cpp
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <chrono>  // 時間測量功能
+#include <Windows.h>
+#include <Psapi.h>
 using namespace std;
-
-int sigma(int n) {
-    if (n < 0)
-        throw "n < 0";
-    else if (n <= 1)
-        return n;
-    return n + sigma(n - 1);
+using namespace chrono; // 方便使用 steady_clock
+//插入元素到已經排序好的串列中
+template <class T>
+void Insert(const T& e, T* a, int i)
+{
+    a[0] = e;
+    while (e < a[i])
+    {
+        a[i + 1] = a[i];
+        i--;
+    }
+    a[i + 1] = e;
 }
 
-int main() {
-    int result = sigma(3);
-    cout << result << '\n';
+//插入排序法
+template <class T>
+void InsertionSort(T* a, const int n)
+{
+    for (int j = 2; j <= n; j++)
+    {
+        T temp = a[j];
+        Insert(temp, a, j - 1);
+    }
+}
+
+//顯示記憶體使用程度
+void printMemoryUsage() {
+    PROCESS_MEMORY_COUNTERS memInfo;
+    GetProcessMemoryInfo(GetCurrentProcess(), &memInfo, sizeof(memInfo));
+    cout<<"----------------------------------------------------------"<<endl;
+    cout<<"Memory Usage Information:" << endl;
+    cout<<"Working Set Size: "<<memInfo.WorkingSetSize / 1024 << " KB" << endl;
+    cout<<"----------------------------------------------------------"<<endl;
 }
 ```
 
