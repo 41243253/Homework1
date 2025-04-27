@@ -5,7 +5,6 @@
 #include <fstream>
 #include <Windows.h>
 #include <Psapi.h>
-
 using namespace std;
 using namespace chrono;
 
@@ -59,93 +58,112 @@ void HeapSort(T* a, const int n)
     }
 }
 
-int main()
-{
-    srand((unsigned)time(nullptr)); // 隨機種子
+int main() {
+    srand((unsigned)time(nullptr));
     printMemoryUsage();
 
     int n;
     cout << "請輸入要幾筆測資：";
     cin >> n;
+
     int choice;
-    cout << "選擇版本 1.Average case, 2.Worst case: ";
+    cout << "選擇模式 (1 = Average Case, 2 = Worst Case): ";
     cin >> choice;
-    // 動態配置陣列，arr[1..n]
-    int* arr = new int[n + 1];
-    int* tempArr = new int[n + 1];
-    int* worstCaseArr = new int[n + 1];
 
-    printMemoryUsage();
-
-    int testCount;
-    // 測試次數：小n多次，大n少次
-    if (n <= 1000) testCount = 1000;
-    else if (n <= 10000) testCount = 500;
-    else testCount = 10;
-
-    long long worst_time = -1; // 最慢耗時（單位：微秒）
-    long long average_time = 0; // 平均耗時(單位：微秒)
-    // 開始測試
-    for (int t = 0; t < testCount; ++t)
-    {
-        // 初始化 arr 為 1..n
+    if (choice == 1) {
+        // Average Case
+        int* orig = new int[n + 1];
+        ifstream fin("testdata5000.txt");
+        if (!fin) {
+            cerr << "無法開啟 testdata5000.txt\n";
+            delete[] orig;
+            return 1;
+        }
         for (int i = 1; i <= n; ++i) {
-            arr[i] = i;
+            fin >> orig[i];
         }
-        permute(arr, n); // 隨機打亂
+        fin.close();
 
-        // 把目前排列備份到 tempArr（備份原始排列）
-        for (int i = 1; i <= n; ++i) {
-            tempArr[i] = arr[i];
+        int* arr = new int[n + 1];
+        printMemoryUsage();
+
+        long long totalDuration = 0;
+        for (int k = 0; k < 2000; ++k) {
+            memcpy(arr + 1, orig + 1, n * sizeof(int));
+            auto start = steady_clock::now();
+            HeapSort(arr, n);
+            auto end = steady_clock::now();
+            totalDuration += duration_cast<microseconds>(end - start).count();
         }
 
-        // 開始計時
-        auto start = steady_clock::now();
-        HeapSort(arr, n);
-        auto end = steady_clock::now();
+        double average = totalDuration / 2000.0;
+        cout << "Average Case 平均耗時: " << average << " 微秒\n";
 
-        // 計算耗時（微秒）
-        auto duration = duration_cast<microseconds>(end - start).count();
-        if (choice == 1) {
-            average_time += duration;
-        }
-        // 如果這次比前面慢，更新最差情況
-        if (duration > worst_time)
-        {
-            worst_time = duration;
-            // 把 tempArr（原排列）存進 worstCaseArr
+        delete[] arr;
+        delete[] orig;
+        printMemoryUsage();
+    }
+    else if (choice == 2) {
+        // Worst Case
+        int* arr = new int[n + 1];
+        int* tempArr = new int[n + 1];
+        int* worstCaseArr = new int[n + 1];
+
+        printMemoryUsage();
+
+        int testCount;
+        if (n <= 1000) testCount = 1000;
+        else if (n <= 10000) testCount = 500;
+        else testCount = 10;
+
+        long long worst_time = -1;
+
+        for (int t = 0; t < testCount; ++t) {
             for (int i = 1; i <= n; ++i) {
-                worstCaseArr[i] = tempArr[i];
+                arr[i] = i;
+            }
+            permute(arr, n);
+
+            for (int i = 1; i <= n; ++i) {
+                tempArr[i] = arr[i];
+            }
+
+            auto start = steady_clock::now();
+            HeapSort(arr, n);
+            auto end = steady_clock::now();
+
+            auto duration = duration_cast<microseconds>(end - start).count();
+            if (duration > worst_time) {
+                worst_time = duration;
+                for (int i = 1; i <= n; ++i) {
+                    worstCaseArr[i] = tempArr[i];
+                }
             }
         }
-    }
-    if (choice == 1) {
-        average_time /= testCount;
-        cout << "平均耗時：" << average_time << " 微秒" << endl;
+
+        cout << "最差情況耗時：" << worst_time << " 微秒\n";
+
+        ofstream outFile("worst_case_data.txt");
+        if (outFile.is_open()) {
+            for (int i = 1; i <= n; ++i) {
+                outFile << worstCaseArr[i] << " ";
+            }
+            outFile.close();
+            cout << "最慢的排列資料已經儲存到 'worst_case_data.txt'\n";
+        }
+        else {
+            cerr << "錯誤：無法寫入檔案！\n";
+        }
+
+        delete[] arr;
+        delete[] tempArr;
+        delete[] worstCaseArr;
+        printMemoryUsage();
     }
     else {
-    cout << "最差情況耗時：" << worst_time << " 微秒" << endl;
-    }
-    // 將最差情況的排列存成文字檔
-    ofstream outFile("worst_case_data.txt");
-    if (outFile.is_open())
-    {
-        for (int i = 1; i <= n; ++i)
-        {
-            outFile << worstCaseArr[i] << " ";
-        }
-        outFile.close();
-        cout << "最慢的排列資料已經儲存到 'worst_case_data.txt'" << endl;
-    }
-    else
-    {
-        cerr << "錯誤：無法寫入檔案！" << endl;
+        cout << "選項錯誤，程式結束。\n";
+        return 1;
     }
 
-    delete[] arr;
-    delete[] tempArr;
-    delete[] worstCaseArr;
-
-    printMemoryUsage();
     return 0;
 }
