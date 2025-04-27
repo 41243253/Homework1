@@ -17,17 +17,20 @@ Worst case和Average case所耗費的時間，並計算其空間複雜度
 
 ## 程式實作
 
-以下為標頭與函式的程式碼：
+以下為使用的標頭：
 
 ```cpp
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
 #include <chrono>  // 時間測量功能
-#include <Windows.h>
-#include <Psapi.h>
+#include <Windows.h> 
+#include <Psapi.h> //用來量測記憶體
 using namespace std;
 using namespace chrono; // 方便使用 steady_clock
+```
+以下為使用的函式：
+```cpp
 //插入元素到已經排序好的串列中
 template <class T>
 void Insert(const T& e, T* a, int i)
@@ -98,7 +101,7 @@ int main(void)
 ```
 ## 效能分析
 
-1. 時間複雜度：程式的時間複雜度為 $O(\log n)$。
+1. 時間複雜度：程式的時間複雜度為 $O(\n²)$。
 2. 空間複雜度：空間複雜度為 $O(100\times \log n + \pi)$。
 
 ## 測試與驗證
