@@ -174,9 +174,8 @@ int main() {
 ### 編譯與執行指令
 
 ```shell
-$ g++ -std=c++17 -o sigma sigma.cpp
-$ ./sigma
-6
+g++ -std=c++17 -O2 Insertion.cpp -o Insertion
+./Insertion
 ```
 
 ### 結論
