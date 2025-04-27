@@ -40,8 +40,6 @@ void printMemoryUsage() {
 }
 
 int main() {
-    srand((unsigned)time(nullptr));
-
     printMemoryUsage();
 
     int n;
