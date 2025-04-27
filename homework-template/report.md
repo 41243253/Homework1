@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/a7e4227f-f889-449f-8b3f-347cd3a28a0c)# 41243240
+# 41243240
 # 41243253
 
 作業一
