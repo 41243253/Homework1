@@ -2,6 +2,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <ctime>
+#include <cstring>
 #include <chrono>
 #include <Windows.h>
 #include <Psapi.h>
@@ -49,62 +50,108 @@ void mergeSort(int* a, int l, int r, int* tmp) {
 
 int main() {
     srand((unsigned)time(nullptr));
-    int loopcount;
-    cout << "循環幾次: ";
-    cin >> loopcount;
+    printMemoryUsage();
+
     int n;
     cout << "請輸入要幾筆測資: ";
     cin >> n;
-    printMemoryUsage();
-    while (loopcount > 0) {
-        loopcount -= 1;
 
-        // 1) 建立 1..n 並打亂
-        int* arr = new int[n + 1];
-        for (int i = 1; i <= n; ++i) arr[i] = i;
-        permute(arr, n);
-        cout << "已生成並隨機打亂 " << n << " 筆測資。\n";
+    int mode;
+    cout << "選擇模式 (1 = Average Case, 2 = Worst Case): ";
+    cin >> mode;
 
-       // printMemoryUsage();
-
-        // 2) 保留「原始未排序」備份
+    if (mode == 1) {
+        // Average Case：讀檔案測2000次
         int* orig = new int[n + 1];
-        memcpy(orig + 1, arr + 1, n * sizeof(int));
+        ifstream fin("testdata5000.txt");
+        if (!fin) {
+            cerr << "無法開啟 testdata5000.txt\n";
+            delete[] orig;
+            return 1;
+        }
+        for (int i = 1; i <= n; ++i) {
+            fin >> orig[i];
+        }
+        fin.close();
 
-        // 3) 輔助陣列
+        int* arr = new int[n + 1];
         int* tmp = new int[n + 1];
+        printMemoryUsage();
 
-        // 4) Merge Sort 計時
-        auto start = steady_clock::now();
-        mergeSort(arr, 1, n, tmp);
-        auto end = steady_clock::now();
-        long long dur = duration_cast<microseconds>(end - start).count();
-        cout << "Merge Sort 耗時: " << dur << " 微秒\n";
+        long long totalDuration = 0;
+        for (int k = 0; k < 2000; ++k) {
+            memcpy(arr + 1, orig + 1, n * sizeof(int));
 
-       // printMemoryUsage();
-
-        // 5) 更新 max_data.txt（只寫原始未排序資料）
-        const char* F = "max_data.txt";
-        long long prev = 0;
-        ifstream infile(F);
-        if (infile >> prev) infile.close();
-
-        if (dur > prev) {
-            ofstream outfile(F, ios::trunc);
-            outfile << dur << "\n";
-            for (int i = 1; i <= n; ++i) {
-                outfile << orig[i] << (i < n ? ' ' : '\n');
-            }
-            cout << "已更新 " << F << "（含原始未排序測資）。\n";
+            auto start = steady_clock::now();
+            mergeSort(arr, 1, n, tmp);
+            auto end = steady_clock::now();
+            totalDuration += duration_cast<microseconds>(end - start).count();
         }
-        else {
-            cout << "目前最大耗時 " << prev << " 微秒，未更新檔案。\n";
-        }
+
+        double average = totalDuration / 2000.0;
+        cout << "Average Case 平均耗時: " << average << " 微秒\n";
 
         delete[] arr;
         delete[] orig;
         delete[] tmp;
+        printMemoryUsage();
     }
-    printMemoryUsage();
+    else if (mode == 2) {
+        // Worst Case：保留你原本生成亂數的做法
+        int loopcount;
+        cout << "循環幾次: ";
+        cin >> loopcount;
+
+        printMemoryUsage();
+        while (loopcount > 0) {
+            loopcount -= 1;
+
+            // 建立 1..n 並打亂
+            int* arr = new int[n + 1];
+            for (int i = 1; i <= n; ++i) arr[i] = i;
+            permute(arr, n);
+            cout << "已生成並隨機打亂 " << n << " 筆測資。\n";
+
+            int* orig = new int[n + 1];
+            memcpy(orig + 1, arr + 1, n * sizeof(int));
+
+            int* tmp = new int[n + 1];
+
+            // Merge Sort 計時
+            auto start = steady_clock::now();
+            mergeSort(arr, 1, n, tmp);
+            auto end = steady_clock::now();
+            long long dur = duration_cast<microseconds>(end - start).count();
+            cout << "Merge Sort 耗時: " << dur << " 微秒\n";
+
+            // 更新 max_data.txt
+            const char* F = "max_data.txt";
+            long long prev = 0;
+            ifstream infile(F);
+            if (infile >> prev) infile.close();
+
+            if (dur > prev) {
+                ofstream outfile(F, ios::trunc);
+                outfile << dur << "\n";
+                for (int i = 1; i <= n; ++i) {
+                    outfile << orig[i] << (i < n ? ' ' : '\n');
+                }
+                cout << "已更新 " << F << "（含原始未排序測資）。\n";
+            }
+            else {
+                cout << "目前最大耗時 " << prev << " 微秒，未更新檔案。\n";
+            }
+
+            delete[] arr;
+            delete[] orig;
+            delete[] tmp;
+        }
+        printMemoryUsage();
+    }
+    else {
+        cout << "選項錯誤，程式結束。\n";
+        return 1;
+    }
+
     return 0;
 }
