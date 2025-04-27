@@ -631,7 +631,7 @@ void HeapSort(T* a, const int n)
 以下為主程式的片段程式碼:
 這個片段主要為先初始化亂數，輸入測資數量和選擇需使用排序的case
 ```cpp
-    srand((unsigned)time(nullptr)); // 隨機種子
+    srand((unsigned)time(nullptr));
     printMemoryUsage();
 
     int n;
@@ -639,10 +639,45 @@ void HeapSort(T* a, const int n)
     cin >> n;
 
     int choice;
-    cout << "選擇版本 1.Average case, 2.Worst case: ";
+    cout << "選擇模式 (1 = Average Case, 2 = Worst Case): ";
     cin >> choice;
 ```
+若選擇Average case則會讀取檔案的資料(正整數)，並使用同一筆資料執行2000次的循環後將執行時間平均後顯示
+```cpp
+if (choice == 1) {
+        // Average Case
+        int* orig = new int[n + 1];
+        ifstream fin("testdata5000.txt");
+        if (!fin) {
+            cerr << "無法開啟 testdata5000.txt\n";
+            delete[] orig;
+            return 1;
+        }
+        for (int i = 1; i <= n; ++i) {
+            fin >> orig[i];
+        }
+        fin.close();
 
+        int* arr = new int[n + 1];
+        printMemoryUsage(); 
+
+        long long totalDuration = 0;
+        for (int k = 0; k < 2000; ++k) {
+            memcpy(arr + 1, orig + 1, n * sizeof(int));
+            auto start = steady_clock::now();
+            HeapSort(arr, n);
+            auto end = steady_clock::now();
+            totalDuration += duration_cast<microseconds>(end - start).count();
+        }
+
+        double average = totalDuration / 2000.0;
+        cout << "Average Case 平均耗時: " << average << " 微秒\n";
+
+        delete[] arr;
+        delete[] orig;
+        printMemoryUsage();
+    }
+```
 ### 結論
 
 ![worst_case](<https://github.com/41243240/Example/blob/main/worst_case.png> "worst case")
