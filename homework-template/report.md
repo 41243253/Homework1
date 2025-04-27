@@ -553,7 +553,7 @@ void mergeSort(int* a, int l, int r, int* tmp) {
 | $n=4000$   |     2632     | 392.676 | 
 | $n=5000$   |     2456     | 499.824 |
 
-![Merge](<https://github.com/41243240/Example/blob/main/Merge.png> "Merge")
+![Merge](<https://github.com/41243240/Example/blob/main/Merge.png> "Merge")  
 雖然Average case和Worst case理應為差不多的曲線，但因測試時是取最糟糕的資料與時間，其中包含了程式的預熱這些的因素，所以結果才會有明顯的差異，但在實際執行與查看時大部分時間是與Average case差不多的。
 ### Heap sort 解題策略
 
