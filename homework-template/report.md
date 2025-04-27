@@ -628,7 +628,20 @@ void HeapSort(T* a, const int n)
     }
 }
 ```
+以下為主程式的片段程式碼:
+這個片段主要為先初始化亂數，輸入測資數量和選擇需使用排序的case
+```cpp
+    srand((unsigned)time(nullptr)); // 隨機種子
+    printMemoryUsage();
 
+    int n;
+    cout << "請輸入要幾筆測資：";
+    cin >> n;
+
+    int choice;
+    cout << "選擇版本 1.Average case, 2.Worst case: ";
+    cin >> choice;
+```
 
 ### 結論
 
