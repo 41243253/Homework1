@@ -1,23 +1,25 @@
 #include <iostream>
+#include <fstream>
 #include <cstdlib>
 #include <ctime>
+#include <cstring>   // for memcpy
 #include <chrono>
 #include <Windows.h>
 #include <Psapi.h>
 using namespace std;
 using namespace chrono;
 
-// Åã¥Ü°O¾ÐÅé¨Ï¥Îµ{«×
+// é¡¯ç¤ºè¨˜æ†¶é«”ä½¿ç”¨ç¨‹åº¦
 void printMemoryUsage() {
     PROCESS_MEMORY_COUNTERS memInfo;
     GetProcessMemoryInfo(GetCurrentProcess(), &memInfo, sizeof(memInfo));
-    cout << "----------------------------------------------------------" << endl;
-    cout << "Memory Usage Information:" << endl;
-    cout << "Working Set Size: " << memInfo.WorkingSetSize / 1024 << " KB" << endl;
-    cout << "----------------------------------------------------------" << endl;
+    cout << "----------------------------------------------------------\n";
+    cout << "Memory Usage Information:\n";
+    cout << "Working Set Size: " << memInfo.WorkingSetSize / 1024 << " KB\n";
+    cout << "----------------------------------------------------------\n";
 }
 
-// «D»¼°j QuickSort¡]pivot ©T©w¬°³Ì¥ªÃä¡^
+// éžéžè¿´ QuickSortï¼ˆpivot å›ºå®šç‚ºæœ€å·¦é‚Šï¼‰
 template <class T>
 void QuickSortIterative(T* a, int left, int right) {
     struct Range { int l, r; };
@@ -39,9 +41,9 @@ void QuickSortIterative(T* a, int left, int right) {
                 if (i < j) swap(a[i], a[j]);
                 else break;
             }
-            swap(a[L], a[j]);  // pivot ©ñ¤¤¶¡
+            swap(a[L], a[j]);  // pivot æ”¾ä¸­é–“
 
-            // ¥ýÀ£¸û¤j°Ï¶¡¡A«áÀ£¸û¤p°Ï¶¡
+            // å…ˆå£“è¼ƒå¤§å€é–“ï¼Œå¾Œå£“è¼ƒå°å€é–“
             int leftSize = j - 1 - L;
             int rightSize = R - (j + 1);
             if (leftSize > rightSize) {
@@ -58,61 +60,75 @@ void QuickSortIterative(T* a, int left, int right) {
     delete[] stack;
 }
 
-// ²£¥Í©T©w¤É§Ç¸ê®Æ¡]1 ¨ì n¡^¡Aarr[1] ~ arr[n] ¨Ï¥Î
-int* generateFixedData(int n) {
-    int* arr = new int[n + 2];
-    for (int i = 1; i <= n; ++i) {
-        arr[i] = i;
-    }
-    return arr;
-}
-
-// ±N arr[1..n] ÀH¾÷¥´¶Ã
-void permute(int* arr, int n) {
-    for (int i = n; i >= 2; --i) {
-        int j = rand() % i + 1;
-        swap(arr[i], arr[j]);
-    }
-}
-
 int main() {
     srand((unsigned)time(nullptr));
     printMemoryUsage();
 
     int n;
-    cout << "½Ð¿é¤J­n´Xµ§´ú¸ê: ";
+    cout << "è«‹è¼¸å…¥è¦å¹¾ç­†æ¸¬è³‡: ";
     cin >> n;
 
     int mode;
-    cout << "¿ï¾Ü´ú¸ê¼Ò¦¡ (1 = Average Case, 2 = Worst Case): ";
+    cout << "é¸æ“‡æ¨¡å¼ (1 = Average Case, 2 = Worst Case): ";
     cin >> mode;
 
-    // «Ø¥ß¸ê®Æ
-    int* arr = generateFixedData(n);
     if (mode == 1) {
-        permute(arr, n);
-        cout << "¨Ï¥Î Average Case ´ú¸ê (ÀH¾÷¥´¶Ã)" << endl;
+        // Average Case: å¾žæª”æ¡ˆè®€è³‡æ–™ï¼Œé‡è¤‡æŽ’åº2000æ¬¡
+        int* orig = new int[n + 1];
+        ifstream fin("testdata5000.txt");
+        if (!fin) {
+            cerr << "ç„¡æ³•é–‹å•Ÿ testdata5000.txt\n";
+            delete[] orig;
+            return 1;
+        }
+        for (int i = 1; i <= n; ++i) {
+            fin >> orig[i];
+        }
+        fin.close();
+
+        int* arr = new int[n + 1];
+        printMemoryUsage();
+
+        long long totalDuration = 0;
+        for (int k = 0; k < 2000; ++k) {
+            // è¤‡è£½åŽŸå§‹è³‡æ–™åˆ°å·¥ä½œé™£åˆ—
+            memcpy(arr + 1, orig + 1, n * sizeof(int));
+
+            auto start = steady_clock::now();
+            QuickSortIterative(arr, 1, n);
+            auto end = steady_clock::now();
+            totalDuration += duration_cast<microseconds>(end - start).count();
+        }
+
+        double average = totalDuration / 2000.0;
+        cout << "Average Case å¹³å‡è€—æ™‚: " << average << " å¾®ç§’\n";
+
+        delete[] arr;
+        delete[] orig;
+        printMemoryUsage();
     }
     else if (mode == 2) {
-        cout << "¨Ï¥Î Worst Case ´ú¸ê (¤É§Ç±Æ¦C)" << endl;
+        // Worst Case: ç”Ÿæˆå‡åºè³‡æ–™
+        int* arr = new int[n + 1];
+        for (int i = 1; i <= n; ++i) {
+            arr[i] = i; // 1, 2, ..., n
+        }
+
+        printMemoryUsage();
+
+        auto start = steady_clock::now();
+        QuickSortIterative(arr, 1, n);
+        auto end = steady_clock::now();
+        long long duration = duration_cast<microseconds>(end - start).count();
+        cout << "Worst Case è€—æ™‚: " << duration << " å¾®ç§’\n";
+
+        delete[] arr;
+        printMemoryUsage();
     }
     else {
-        cout << "¿ï¶µ¿ù»~¡Aµ{¦¡µ²§ô¡C" << endl;
-        delete[] arr;
-        return 0;
+        cout << "é¸é …éŒ¯èª¤ï¼Œç¨‹å¼çµæŸã€‚\n";
+        return 1;
     }
 
-    printMemoryUsage();
-
-    // ­p®É¨Ã±Æ§Ç
-    auto start = steady_clock::now();
-    QuickSortIterative(arr, 1, n);
-    auto end = steady_clock::now();
-
-    auto duration = duration_cast<microseconds>(end - start);
-    cout << "¯Ó®É¡G" << duration.count() << " ·L¬í" << endl;
-
-    delete[] arr;
-    printMemoryUsage();
     return 0;
 }
