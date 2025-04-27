@@ -11,9 +11,9 @@ Worst case和Average case所耗費的時間，並計算其空間複雜度
 ### Insertion sort 解題策略
 
 1. 輸入測資數量後產生測試資料
-2. 根據選擇的case產生對應case的耗費時間  
+2. 根據選擇的case產生或讀入資料
 3. 將測試資料插入陣列中並做排序
-4. 排序後輸出花費的時間
+4. 排序後輸出花費的時間與記憶體花費
 
 ## 程式實作
 
@@ -177,7 +177,196 @@ int main() {
 g++ -std=c++17 -O2 Insertion.cpp -o Insertion
 ./Insertion
 ```
+### Quick sort 解題策略
 
+1. 輸入測資數量後產生測試資料
+2. 根據選擇的case產生對應case的耗費時間  
+3. 讀入資料後根據排序邏輯去排序
+4. 排序後輸出花費的時間與記憶體花費
+
+## 程式實作
+
+以下為使用的標頭：
+
+```cpp
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <ctime>
+#include <cstring> 
+#include <chrono>
+#include <Windows.h>
+#include <Psapi.h>
+using namespace std;
+using namespace chrono;
+```
+以下為使用的函式：
+```cpp
+// 非遞迴 QuickSort（pivot 固定為最左邊）
+template <class T>
+void QuickSortIterative(T* a, int left, int right) {
+    struct Range { int l, r; };
+    int maxSize = right - left + 1;
+    Range* stack = new Range[maxSize];
+    int top = 0;
+    stack[top] = { left, right };
+
+    while (top >= 0) {
+        Range cur = stack[top--];
+        int L = cur.l, R = cur.r;
+        if (L < R) {
+            // partition
+            T pivot = a[L];
+            int i = L + 1, j = R;
+            while (true) {
+                while (i <= R && a[i] < pivot) ++i;
+                while (j >= L + 1 && a[j] > pivot) --j;
+                if (i < j) swap(a[i], a[j]);
+                else break;
+            }
+            swap(a[L], a[j]);  // pivot 放中間
+
+            // 先壓較大區間，後壓較小區間
+            int leftSize = j - 1 - L;
+            int rightSize = R - (j + 1);
+            if (leftSize > rightSize) {
+                if (L < j - 1)     stack[++top] = { L,     j - 1 };
+                if (j + 1 < R)     stack[++top] = { j + 1, R };
+            }
+            else {
+                if (j + 1 < R)     stack[++top] = { j + 1, R };
+                if (L < j - 1)     stack[++top] = { L,     j - 1 };
+            }
+        }
+    }
+
+    delete[] stack;
+}
+// 顯示記憶體使用程度
+void printMemoryUsage() {
+    PROCESS_MEMORY_COUNTERS memInfo;
+    GetProcessMemoryInfo(GetCurrentProcess(), &memInfo, sizeof(memInfo));
+    cout << "----------------------------------------------------------\n";
+    cout << "Memory Usage Information:\n";
+    cout << "Working Set Size: " << memInfo.WorkingSetSize / 1024 << " KB\n";
+    cout << "----------------------------------------------------------\n";
+}
+```
+以下為主程式的片段程式碼:  
+這個片段主要為先初始化亂數，輸入測資數量和選擇需使用排序的case
+```cpp
+    srand((unsigned)time(nullptr));
+    printMemoryUsage();
+
+    int n;
+    cout << "請輸入要幾筆測資: ";
+    cin >> n;
+
+    int mode;
+    cout << "選擇模式 (1 = Average Case, 2 = Worst Case): ";
+    ci
+```
+若選擇Average case則會讀取檔案的資料(正整數)，並執行2000次的循環後將執行時間平均後顯示
+```cpp
+   if (mode == 1) {
+        // Average Case: 從檔案讀資料，重複排序2000次
+        int* orig = new int[n + 1];
+        ifstream fin("data.txt");
+        if (!fin) {
+            cerr << "無法開啟 data.txt\n";
+            delete[] orig;
+            return 1;
+        }
+        for (int i = 1; i <= n; ++i) {
+            fin >> orig[i];
+        }
+        fin.close();
+
+        int* arr = new int[n + 1];
+        printMemoryUsage();
+
+        long long totalDuration = 0;
+        for (int k = 0; k < 2000; ++k) {
+            // 複製原始資料到工作陣列
+            memcpy(arr + 1, orig + 1, n * sizeof(int));
+
+            auto start = steady_clock::now();
+            QuickSortIterative(arr, 1, n);
+            auto end = steady_clock::now();
+            totalDuration += duration_cast<microseconds>(end - start).count();
+        }
+
+        double average = totalDuration / 2000.0;
+        cout << "Average Case 平均耗時: " << average << " 微秒\n";
+
+        delete[] arr;
+        delete[] orig;
+        printMemoryUsage();
+    }
+```
+若選擇Worst case則會根據一開始輸入的n來產生1~n的資料來去做排序，以此來產生Worst case的情況，若選擇的模式錯誤則輸出提示字元並結束程式
+```cpp
+    else if (mode == 2) {
+        // Worst Case: 生成升序資料
+        int* arr = new int[n + 1];
+        for (int i = 1; i <= n; ++i) {
+            arr[i] = i; // 1, 2, ..., n
+        }
+
+        printMemoryUsage();
+
+        auto start = steady_clock::now();
+        QuickSortIterative(arr, 1, n);
+        auto end = steady_clock::now();
+        long long duration = duration_cast<microseconds>(end - start).count();
+        cout << "Worst Case 耗時: " << duration << " 微秒\n";
+
+        delete[] arr;
+        printMemoryUsage();
+    }
+    else {
+        cout << "選項錯誤，程式結束。\n";
+        return 1;
+    }
+
+    return 0;
+}
+```
+## 效能分析
+### Average case:
+1. 時間複雜度：程式的時間複雜度為 $O(nlogn)$ ，每次都需將新元素插入到已排序的陣列中，比對也要花$O(n)$次。
+2. 空間複雜度：空間複雜度為 $O(n)$，因為在程式中動態分佈了兩個長度為n+1陣列，且經過記憶體量測與計算後確實為n的記憶體花費。
+### Worst case:
+1. 時間複雜度：程式的時間複雜度也為 $O(n²)$ ，每次都需將新元素插入到已排序的陣列中，比對也要花$O(n)$次。
+2. 空間複雜度：空間複雜度為 $O(n)$，因為在程式中動態分佈了兩個長度為n+1陣列，且經過記憶體量測與計算後確實為n的記憶體花費。
+
+## 測試與驗證
+
+### 測試案例
+
+|  測資數量   | Worst case(microseconds)   | Average case(microseconds) | 
+|------------|----------------------------|----------------------------|
+| $n=500$    |     133      | 85.692        |
+| $n=1000$   |     358      | 196.415        |
+| $n=2000$   |     1332      | 437.87       |
+| $n=3000$   |     2853      | 698.887       |
+| $n=4000$   |     4994     | 986.374 | 
+| $n=5000$   |     8502     | 1261.150 |
+
+![Quick](<https://github.com/41243240/Example/blob/main/Quick.png> "Quick")
+### Merge sort 解題策略
+
+1. 輸入測資數量後產生測試資料
+2. 根據選擇的case產生對應case的耗費時間  
+3. 將測試資料插入陣列中並做排序
+4. 排序後輸出花費的時間與記憶體花費
+
+### Heap sort 解題策略
+
+1. 輸入測資數量後產生測試資料
+2. 根據選擇的case產生對應case的耗費時間  
+3. 將測試資料插入陣列中並做排序
+4. 排序後輸出花費的時間與記憶體花費
 ### 結論
 
 ![worst_case](<https://github.com/41243240/Example/blob/main/worst_case.png> "worst case")
