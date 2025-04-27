@@ -264,9 +264,9 @@ void printMemoryUsage() {
 
     int mode;
     cout << "選擇模式 (1 = Average Case, 2 = Worst Case): ";
-    ci
+    cin >> mode;
 ```
-若選擇Average case則會讀取檔案的資料(正整數)，並執行2000次的循環後將執行時間平均後顯示
+若選擇Average case則會讀取檔案的資料(正整數)，並使用同一筆資料執行2000次的循環後將執行時間平均後顯示
 ```cpp
    if (mode == 1) {
         // Average Case: 從檔案讀資料，重複排序2000次
@@ -330,11 +330,10 @@ void printMemoryUsage() {
     }
 
     return 0;
-}
 ```
 ## 效能分析
 ### Average case:
-1. 時間複雜度：程式的時間複雜度為 $O(nlogn)$ ，每次都需將新元素插入到已排序的陣列中，比對也要花$O(n)$次。
+1. 時間複雜度：程式的時間複雜度為 $O(n log n)$ ，每次都需將新元素插入到已排序的陣列中，比對也要花$O(n)$次。
 2. 空間複雜度：空間複雜度為 $O(n)$，因為在程式中動態分佈了兩個長度為n+1陣列，且經過記憶體量測與計算後確實為n的記憶體花費。
 ### Worst case:
 1. 時間複雜度：程式的時間複雜度也為 $O(n²)$ ，每次都需將新元素插入到已排序的陣列中，比對也要花$O(n)$次。
@@ -358,9 +357,204 @@ void printMemoryUsage() {
 
 1. 輸入測資數量後產生測試資料
 2. 根據選擇的case產生對應case的耗費時間  
-3. 將測試資料插入陣列中並做排序
+3. 讀入資料後根據排序邏輯去排序
 4. 排序後輸出花費的時間與記憶體花費
+## 程式實作
 
+以下為使用的標頭：
+
+```cpp
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <ctime>
+#include <cstring>
+#include <chrono>
+#include <Windows.h>
+#include <Psapi.h>
+using namespace std;
+using namespace chrono;
+```
+以下為使用的函式：  
+此片段為資料產生的方式，在經過亂數產生後將資料內容給隨機打亂
+```cpp
+// 隨機打亂 arr[1..n]
+void permute(int* arr, int n) {
+    for (int i = n; i >= 2; --i) {
+        int j = rand() % i + 1;
+        swap(arr[i], arr[j]);
+    }
+}
+
+```
+此片段為將兩筆不同的資料合併在一起
+```cpp
+// 合併 [l..m] 和 [m+1..r]
+void merge(int* a, int l, int m, int r, int* tmp) {
+    for (int i = l; i <= r; ++i) tmp[i] = a[i];
+    int i = l, j = m + 1, k = l;
+    while (i <= m && j <= r) {
+        if (tmp[i] <= tmp[j]) a[k++] = tmp[i++];
+        else                  a[k++] = tmp[j++];
+    }
+    while (i <= m) a[k++] = tmp[i++];
+    while (j <= r) a[k++] = tmp[j++];
+}
+```
+此片段為Merge Sort使用遞迴來去撰寫，除了應用到他的排序邏輯在使用遞迴也能讓程式更加簡潔
+```cpp
+// 遞迴 Merge Sort
+void mergeSort(int* a, int l, int r, int* tmp) {
+    if (l >= r) return;
+    int m = (l + r) / 2;
+    mergeSort(a, l, m, tmp);
+    mergeSort(a, m + 1, r, tmp);
+    merge(a, l, m, r, tmp);
+}
+```
+以下為主程式的片段程式碼:  
+這個片段主要為先初始化亂數，輸入測資數量和選擇需使用排序的case
+```cpp
+    srand((unsigned)time(nullptr));
+    printMemoryUsage();
+
+    int n;
+    cout << "請輸入要幾筆測資: ";
+    cin >> n;
+
+    int mode;
+    cout << "選擇模式 (1 = Average Case, 2 = Worst Case): ";
+    cin >> mode;
+```
+若選擇Average case則會讀取檔案的資料(正整數)，並使用同一筆資料執行2000次的循環後將執行時間平均後顯示
+```cpp
+    if (mode == 1) {
+        // Average Case：讀檔案測2000次
+        int* orig = new int[n + 1];
+        ifstream fin("testdata5000.txt");
+        if (!fin) {
+            cerr << "無法開啟 testdata5000.txt\n";
+            delete[] orig;
+            return 1;
+        }
+        for (int i = 1; i <= n; ++i) {
+            fin >> orig[i];
+        }
+        fin.close();
+
+        int* arr = new int[n + 1];
+        int* tmp = new int[n + 1];
+        printMemoryUsage();
+
+        long long totalDuration = 0;
+        for (int k = 0; k < 2000; ++k) {
+            memcpy(arr + 1, orig + 1, n * sizeof(int));
+
+            auto start = steady_clock::now();
+            mergeSort(arr, 1, n, tmp);
+            auto end = steady_clock::now();
+            totalDuration += duration_cast<microseconds>(end - start).count();
+        }
+
+        double average = totalDuration / 2000.0;
+        cout << "Average Case 平均耗時: " << average << " 微秒\n";
+
+        delete[] arr;
+        delete[] orig;
+        delete[] tmp;
+        printMemoryUsage();
+    }
+```
+###若選擇Worst case則會有以下幾步驟  
+1.輸入要循環幾次後執行
+2.根據一開始輸入的n來產生n筆亂數資料之後呼叫函式打亂資料  
+3.將產生的資料丟給Merge Sort做排序
+4.並確認此次的耗費時間是否超過紀錄的時間，若有則輸出時間與資料至.txt，若無則不更新
+```cpp
+    else if (mode == 2) {
+        int loopcount;
+        cout << "循環幾次: ";
+        cin >> loopcount;
+
+        printMemoryUsage();
+        while (loopcount > 0) {
+            loopcount -= 1;
+
+            // 建立 1..n 並打亂
+            int* arr = new int[n + 1];
+            for (int i = 1; i <= n; ++i) arr[i] = i;
+            permute(arr, n);
+            cout << "已生成並隨機打亂 " << n << " 筆測資。\n";
+
+            int* orig = new int[n + 1];
+            memcpy(orig + 1, arr + 1, n * sizeof(int));
+
+            int* tmp = new int[n + 1];
+
+            // Merge Sort 計時
+            auto start = steady_clock::now();
+            mergeSort(arr, 1, n, tmp);
+            auto end = steady_clock::now();
+            long long dur = duration_cast<microseconds>(end - start).count();
+            cout << "Merge Sort 耗時: " << dur << " 微秒\n";
+
+            // 更新 max_data.txt
+            const char* F = "max_data.txt";
+            long long prev = 0;
+            ifstream infile(F);
+            if (infile >> prev) infile.close();
+
+            if (dur > prev) {
+                ofstream outfile(F, ios::trunc);
+                outfile << dur << "\n";
+                for (int i = 1; i <= n; ++i) {
+                    outfile << orig[i] << (i < n ? ' ' : '\n');
+                }
+                cout << "已更新 " << F << "（含原始未排序測資）。\n";
+            }
+            else {
+                cout << "目前最大耗時 " << prev << " 微秒，未更新檔案。\n";
+            }
+
+            delete[] arr;
+            delete[] orig;
+            delete[] tmp;
+        }
+        printMemoryUsage();
+    }
+```
+若在選擇case時輸入錯誤則輸出提示字元後結束程式
+```cpp
+    else {
+        cout << "選項錯誤，程式結束。\n";
+        return 1;
+    }
+
+    return 0;
+```
+## 效能分析
+### Average case:
+1. 時間複雜度：程式的時間複雜度為 $O(n log n)$ ，每次都需將新元素插入到已排序的陣列中，比對也要花$O(n)$次。
+2. 空間複雜度：空間複雜度為 $O(n)$，因為在程式中動態分佈了兩個長度為n+1陣列，且經過記憶體量測與計算後確實為n的記憶體花費。
+### Worst case:
+1. 時間複雜度：程式的時間複雜度也為 $O(n log n)$ ，每次都需將新元素插入到已排序的陣列中，比對也要花$O(n)$次。
+2. 空間複雜度：空間複雜度為 $O(n)$，因為在程式中動態分佈了兩個長度為n+1陣列，且經過記憶體量測與計算後確實為n的記憶體花費。
+
+## 測試與驗證
+
+### 測試案例
+
+|  測資數量   | Worst case(microseconds)   | Average case(microseconds) | 
+|------------|----------------------------|----------------------------|
+| $n=500$    |     555      | 31.750        |
+| $n=1000$   |     1260      | 76.029        |
+| $n=2000$   |     1743      | 180.106       |
+| $n=3000$   |     2345      | 282.655      |
+| $n=4000$   |     2632     | 392.676 | 
+| $n=5000$   |     2456     | 499.824 |
+
+![Merge](<https://github.com/41243240/Example/blob/main/Merge.png> "Merge")
+雖然Average case和Worst case理應為差不多的曲線，但因測試時是取最糟糕的資料與時間，其中包含了程式的預熱這些的因素，所以結果才會有明顯的差異，但在實際執行與查看時大部分時間是與Average case差不多的。
 ### Heap sort 解題策略
 
 1. 輸入測資數量後產生測試資料
