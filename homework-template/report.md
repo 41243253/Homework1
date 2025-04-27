@@ -561,6 +561,75 @@ void mergeSort(int* a, int l, int r, int* tmp) {
 2. 根據選擇的case產生對應case的耗費時間  
 3. 將測試資料插入陣列中並做排序
 4. 排序後輸出花費的時間與記憶體花費
+
+## 程式實作
+
+以下為使用的標頭：
+
+```cpp
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <chrono>
+#include <fstream>
+#include <Windows.h>
+#include <Psapi.h>
+using namespace std;
+using namespace chrono;
+```
+以下為使用的函式：
+```cpp
+// 將 arr[1..n] 隨機打亂
+void permute(int* arr, int n) {
+    for (int i = n; i >= 2; --i) {
+        int j = rand() % i + 1;
+        swap(arr[i], arr[j]);
+    }
+}
+
+// 顯示目前程式的記憶體使用情況
+void printMemoryUsage() {
+    PROCESS_MEMORY_COUNTERS memInfo;
+    GetProcessMemoryInfo(GetCurrentProcess(), &memInfo, sizeof(memInfo));
+    cout << "----------------------------------------------------------" << endl;
+    cout << "Memory Usage Information:" << endl;
+    cout << "Working Set Size: " << memInfo.WorkingSetSize / 1024 << " KB" << endl;
+    cout << "----------------------------------------------------------" << endl;
+}
+
+// 調整最大堆積
+template <class T>
+void Adjust(T* a, const int root, const int n)
+{
+    T e = a[root];
+    int j;
+    for (j = 2 * root; j <= n; j *= 2)
+    {
+        if (j < n && a[j] < a[j + 1]) j++;
+        if (e >= a[j]) break;
+        a[j / 2] = a[j];
+    }
+    a[j / 2] = e;
+}
+
+// 堆積排序
+template <class T>
+void HeapSort(T* a, const int n)
+{
+    // 建立堆積
+    for (int i = n / 2; i >= 1; i--)
+    {
+        Adjust(a, i, n);
+    }
+
+    for (int i = n - 1; i >= 1; i--) {
+        swap(a[1], a[i + 1]);
+        Adjust(a, 1, i);
+    }
+}
+```
+
+
 ### 結論
 
 ![worst_case](<https://github.com/41243240/Example/blob/main/worst_case.png> "worst case")
