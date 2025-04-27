@@ -123,7 +123,7 @@ $ ./sigma
 
 ### 結論
 
-![worst_case]((https://github.com/41243240/Example/blob/main/worst_case.png))
+![worst_case](<https://github.com/41243240/Example/blob/main/worst_case.png>"worst case")
 
 
 1. 程式能正確計算 $n$ 到 $1$ 的連加總和。  
