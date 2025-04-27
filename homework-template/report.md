@@ -465,11 +465,11 @@ void mergeSort(int* a, int l, int r, int* tmp) {
         printMemoryUsage();
     }
 ```
-###若選擇Worst case則會有以下幾步驟  
-1.輸入要循環幾次後執行
+### 若選擇Worst case則會有以下幾步驟  
+1.輸入要循環幾次後執行  
 2.根據一開始輸入的n來產生n筆亂數資料之後呼叫函式打亂資料  
-3.將產生的資料丟給Merge Sort做排序
-4.並確認此次的耗費時間是否超過紀錄的時間，若有則輸出時間與資料至.txt，若無則不更新
+3.將產生的資料丟給Merge Sort做排序  
+4.並確認此次的耗費時間是否超過紀錄的時間，若有則輸出時間與資料至.txt，若無則不更新  
 ```cpp
     else if (mode == 2) {
         int loopcount;
