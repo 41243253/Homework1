@@ -793,11 +793,19 @@ if (choice == 1) {
 - **設計動機**  
   比較 Insertion/Quick/Merge/Heap 四種排序在平均及最壞情況下的效能差異，驗證理論複雜度。
 
-- **實作特色**  
-  - **Insertion Sort**：利用哨兵位元與 `memcpy` 還原原始資料，2000 次迴圈取平均。  
-  - **Quick Sort**：最左樞軸＋顯式 `stack` 模擬遞迴，保證不爆棧；隨機輸入 \(O(n\log n)\)、有序輸入退化 \(O(n^2)\) :contentReference[oaicite:0]{index=0}&#8203;:contentReference[oaicite:1]{index=1}。  
-  - **Merge Sort**：遞迴分治＋線性合併，無論輸入皆 \(Θ(n\log n)\)，合併需 \(O(n)\) 暫存 :contentReference[oaicite:2]{index=2}&#8203;:contentReference[oaicite:3]{index=3}。  
-  - **Heap Sort**：自底向上建堆 \(O(n)\)，再 Extract-Max \(O(n\log n)\)，Worst/Average 都 \(Θ(n\log n)\) :contentReference[oaicite:4]{index=4}&#8203;:contentReference[oaicite:5]{index=5}。
+- **實作重點**  
+  - **Insertion Sort**：
+  - 利用哨兵位元與 `memcpy` 還原原始資料，2000 次迴圈取平均。  
+  - **Quick Sort**：  
+  - 1.以最左元素為 pivot，避免深度遞迴用顯式 stack[] 模擬，防止 Worst Case 深度。
+  - 2.Average case的時間複雜度 \(O(n\log n)\);Worst Case的時間複雜度 \(O(n^2)\) 。  
+  - **Merge Sort**：
+  - 1.標準分治：先遞迴切半、再合併。
+  - 2.無論輸入順序皆為 \(Θ(n\log n)\)。
+  - 3.每次合併需一個 $n$大小的暫存陣列。  
+  - **Heap Sort**：
+  - 1.先做一次自底向上建堆 $O(n)$，再 Extract-Max $O(nlog n)$。  
+  - 2.Worst/Average 的時間複雜度都為 $Θ(nlogn)$ 。
 
 - **測試策略**  
   - **Average Case**：同一筆隨機資料，多次 `memcpy` 還原，2000 次排序取平均。  
