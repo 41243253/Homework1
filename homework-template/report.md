@@ -773,16 +773,18 @@ if (choice == 1) {
 | $n=4000$   |     2213     | 634.300 | 
 | $n=5000$   |     2447     | 814.952 |
 
-![Heap](<https://github.com/41243240/Example/blob/main/Heap.png> "Heap") 
-雖然Average case和Worst case理應為差不多的曲線，但因測試時是取最糟糕的資料與時間，其中包含了程式的預熱這些的因素，所以結果才會有明顯的差異，但在實際執行與查看時大部分時間是與Average case差不多的。
+![Heap](<https://github.com/41243240/Example/blob/main/Heap.png> "Heap")  
+雖然Average case和Worst case理應為差不多的曲線，但因測試時是取最糟糕的資料與時間，其中包含了程式的預熱這些的因素，所以結果才會有明顯的差異，但在實際執行與查看時大部分時間是與Average case差不多的。  
+
 ## 結論
 ### 各排序方法的Worst Case耗費時間比較
 ![worst_case](<https://github.com/41243240/Example/blob/main/worst_case.png> "worst case")
 ### 各排序方法的Average Case耗費時間比較
-![average](<https://github.com/41243240/Example/blob/main/average.png> "average")
-1. 程式能正確計算 $n$ 到 $1$ 的連加總和。  
-2. 在 $n < 0$ 的情況下，程式會成功拋出異常，符合設計預期。  
-3. 測試案例涵蓋了多種邊界情況（$n = 0$、$n = 1$、$n > 1$、$n < 0$），驗證程式的正確性。
+![average](<https://github.com/41243240/Example/blob/main/average.png> "average")  
+
+1. 各個排序程式能正確從小到大做排序  。
+2. 在選擇不同的Case能產出對應的花費時間。
+3. 測試案例涵蓋了多筆測資來測試其時間複雜度是否符合（$n = 500$、$n = 1000$、$n = 2000$、$n = 3000$、$n = 4000$、$n = 5000$），並驗證程式的正確性。
 
 ## 申論及開發報告
 
