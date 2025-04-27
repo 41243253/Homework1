@@ -469,7 +469,7 @@ void mergeSort(int* a, int l, int r, int* tmp) {
 1.輸入要循環幾次後執行  
 2.根據一開始輸入的n來產生n筆亂數資料之後呼叫函式打亂資料  
 3.將產生的資料丟給Merge Sort做排序  
-4.並確認此次的耗費時間是否超過紀錄的時間，若有則輸出時間與資料至.txt，若無則不更新  
+4.並確認此次的耗費時間是否超過紀錄的時間，若有則輸出時間與資料至max_data.txt，若無則不更新  
 ```cpp
     else if (mode == 2) {
         int loopcount;
@@ -678,11 +678,108 @@ if (choice == 1) {
         printMemoryUsage();
     }
 ```
-### 結論
+### 若選擇Worst case有以下的步驟  
+1.則根據輸入的測資數分別做1000、500或10次的循環  
+2.並產生n筆資料後呼叫函式打亂  
+3.將資料給Heap sort來去做排序
+4.並將在循環次數中的耗費最久時間的情況記錄至worst_case_data.txt中
+```cpp
+    else if (choice == 2) {
+        // Worst Case
+        int* arr = new int[n + 1];
+        int* tempArr = new int[n + 1];
+        int* worstCaseArr = new int[n + 1];
 
+        printMemoryUsage();
+
+        int testCount;
+        if (n <= 1000) testCount = 1000;
+        else if (n <= 10000) testCount = 500;
+        else testCount = 10;
+
+        long long worst_time = -1;
+
+        for (int t = 0; t < testCount; ++t) {
+            for (int i = 1; i <= n; ++i) {
+                arr[i] = i;
+            }
+            permute(arr, n);
+
+            for (int i = 1; i <= n; ++i) {
+                tempArr[i] = arr[i];
+            }
+
+            auto start = steady_clock::now();
+            HeapSort(arr, n);
+            auto end = steady_clock::now();
+
+            auto duration = duration_cast<microseconds>(end - start).count();
+            if (duration > worst_time) {
+                worst_time = duration;
+                for (int i = 1; i <= n; ++i) {
+                    worstCaseArr[i] = tempArr[i];
+                }
+            }
+        }
+
+        cout << "最差情況耗時：" << worst_time << " 微秒\n";
+
+        ofstream outFile("worst_case_data.txt");
+        if (outFile.is_open()) {
+            for (int i = 1; i <= n; ++i) {
+                outFile << worstCaseArr[i] << " ";
+            }
+            outFile.close();
+            cout << "最慢的排列資料已經儲存到 'worst_case_data.txt'\n";
+        }
+        else {
+            cerr << "錯誤：無法寫入檔案！\n";
+        }
+
+        delete[] arr;
+        delete[] tempArr;
+        delete[] worstCaseArr;
+        printMemoryUsage();
+    }
+```
+若case選擇錯誤則輸出提示字元並結束程式
+```cpp
+    else {
+        cout << "選項錯誤，程式結束。\n";
+        return 1;
+    }
+
+    return 0;
+}
+```
+## 效能分析
+### Average case:
+1. 時間複雜度：程式的時間複雜度為 $O(n log n)$ ，每次都需將新元素插入到已排序的陣列中，比對也要花$O(n)$次。
+2. 空間複雜度：空間複雜度為 $O(n)$，因為在程式中動態分佈了兩個長度為n+1陣列，且經過記憶體量測與計算後確實為n的記憶體花費。
+### Worst case:
+1. 時間複雜度：程式的時間複雜度也為 $O(n log n)$ ，每次都需將新元素插入到已排序的陣列中，比對也要花$O(n)$次。
+2. 空間複雜度：空間複雜度為 $O(n)$，因為在程式中動態分佈了兩個長度為n+1陣列，且經過記憶體量測與計算後確實為n的記憶體花費。
+
+## 測試與驗證
+
+### 測試案例
+
+|  測資數量   | Worst case(microseconds)   | Average case(microseconds) | 
+|------------|----------------------------|----------------------------|
+| $n=500$    |     433     | 59.813        |
+| $n=1000$   |     1306      | 133.557        |
+| $n=2000$   |     1755      | 291.417       |
+| $n=3000$   |     1877      | 457.263      |
+| $n=4000$   |     2213     | 634.300 | 
+| $n=5000$   |     2447     | 814.952 |
+
+![Heap](<https://github.com/41243240/Example/blob/main/Heap.png> "Heap") 
+雖然Average case和Worst case理應為差不多的曲線，但因測試時是取最糟糕的資料與時間，其中包含了程式的預熱這些的因素，所以結果才會有明顯的差異，但在實際執行與查看時大部分時間是與Average case差不多的。
+## 結論
+### 各排序方法的Worst Case耗費時間比較
 ![worst_case](<https://github.com/41243240/Example/blob/main/worst_case.png> "worst case")
-
-
+### 各排序方法的Average Case耗費時間比較
+![average](<https://github.com/41243240/Example/blob/main/average.png> "average")
 1. 程式能正確計算 $n$ 到 $1$ 的連加總和。  
 2. 在 $n < 0$ 的情況下，程式會成功拋出異常，符合設計預期。  
 3. 測試案例涵蓋了多種邊界情況（$n = 0$、$n = 1$、$n > 1$、$n < 0$），驗證程式的正確性。
