@@ -21,11 +21,13 @@ Worst case和Average case所耗費的時間，並計算其空間複雜度
 
 ```cpp
 #include <iostream>
+#include <fstream>
 #include <cstdlib>
 #include <ctime>
-#include <chrono>  // 時間測量功能
-#include <Windows.h> 
-#include <Psapi.h> //用來量測記憶體
+#include <cstring>   // for memcpy
+#include <chrono>    // 時間測量功能
+#include <Windows.h>
+#include <Psapi.h>
 using namespace std;
 using namespace chrono; // 方便使用 steady_clock
 ```
@@ -66,43 +68,92 @@ void printMemoryUsage() {
 }
 ```
 以下為主程式的程式碼:
+這邊的片段主要為輸入測資數量和選擇需使用排序的case
 ```cpp
-int main(void)
-{
+int main() {
     printMemoryUsage();
+
     int n;
-    cout << "請輸入要幾筆測資:";
+    cout << "請輸入要幾筆測資: ";
     cin >> n;
-    int* arr = new int[n + 1]; // arr[0] 是哨兵位，1~n 為資料
-    int temp = n;
-    // 產生隨機數n~1
-    for (int i = 1; i <= n; i++)
-    {
-        arr[i] = temp;
-        temp -= 1;
+
+    int mode;
+    cout << "選擇模式 (1 = Average Case, 2 = Worst Case): ";
+    cin >> mode;
+```
+若選擇Average case則會讀取檔案的資料(正整數)，並執行2000次的循環後將執行時間平均後顯示
+```cpp
+    if (mode == 1) {
+        // Average Case: 從 data.txt 讀入 n 筆資料，重複排序 2000 次取平均
+        int* orig = new int[n + 1];
+        ifstream fin("data.txt");
+        if (!fin) {
+            cerr << "無法開啟 data.txt\n";
+            delete[] orig;
+            return 1;
+        }
+        for (int i = 1; i <= n; ++i) {
+            fin >> orig[i];
+        }
+        fin.close();
+
+        int* arr = new int[n + 1];
+        printMemoryUsage();
+
+        long long totalDuration = 0;
+        for (int k = 0; k < 2000; ++k) {
+            // 複製原始資料到工作陣列
+            memcpy(arr + 1, orig + 1, n * sizeof(int));
+
+            auto start = steady_clock::now();
+            InsertionSort(arr, n);
+            auto end = steady_clock::now();
+            totalDuration += duration_cast<microseconds>(end - start).count();
+        }
+
+        double average = totalDuration / 2000.0;
+        cout << "Average Case 平均耗時: " << average << " 微秒\n";
+
+        delete[] arr;
+        delete[] orig;
+        printMemoryUsage();
+    }
+```
+若選擇Worst case則會根據一開始輸入的n來產生n~1的資料來去做排序，以此來產生Worst case的情況
+```cpp
+    else if (mode == 2) {
+        // Worst Case: 生成反序資料一次排序
+        int* arr = new int[n + 1];
+        for (int i = 1; i <= n; ++i) {
+            arr[i] = n - i + 1; // n, n-1, ..., 1
+        }
+
+        printMemoryUsage();
+
+        auto start = steady_clock::now();
+        InsertionSort(arr, n);
+        auto end = steady_clock::now();
+        long long duration = duration_cast<microseconds>(end - start).count();
+        cout << "Worst Case 耗時: " << duration << " 微秒\n";
+
+        delete[] arr;
+        printMemoryUsage();
+    }
+    else {
+        cout << "選項錯誤，程式結束。\n";
+        return 1;
     }
 
-    printMemoryUsage();
-    // 開始計時
-    auto start = steady_clock::now();
-
-    InsertionSort(arr, n);
-
-    // 結束計時
-    auto end = steady_clock::now();
-    auto duration = duration_cast<microseconds>(end - start);
-
-    cout << "耗時：" << duration.count() << " 微秒" << endl;
-
-    delete[] arr;
-    printMemoryUsage();
     return 0;
 }
 ```
 ## 效能分析
-
-1. 時間複雜度：程式的時間複雜度為 $O(n²)$。
-2. 空間複雜度：空間複雜度為 $O(n)$。
+### Average case:
+1. 時間複雜度：程式的時間複雜度為 $O(n²)$ ，每次都需將新元素插入到已排序的陣列中，比對也要花$O(n)$次。
+2. 空間複雜度：空間複雜度為 $O(n)$，因為在程式中動態分佈了兩個長度為n+1陣列，且經過記憶體量測與計算後確實為n的記憶體花費。
+### Worst case:
+1. 時間複雜度：程式的時間複雜度也為 $O(n²)$ ，每次都需將新元素插入到已排序的陣列中，比對也要花$O(n)$次。
+2. 空間複雜度：空間複雜度為 $O(n)$，因為在程式中動態分佈了兩個長度為n+1陣列，且經過記憶體量測與計算後確實為n的記憶體花費。
 
 ## 測試與驗證
 
