@@ -8,7 +8,7 @@
 using namespace std;
 using namespace chrono;
 
-// Åã¥Ü°O¾ĞÅé¨Ï¥Îµ{«×
+// é¡¯ç¤ºè¨˜æ†¶é«”ä½¿ç”¨ç¨‹åº¦
 void printMemoryUsage() {
     PROCESS_MEMORY_COUNTERS m;
     GetProcessMemoryInfo(GetCurrentProcess(), &m, sizeof(m));
@@ -18,7 +18,7 @@ void printMemoryUsage() {
         << "----------------------------------------------------------\n";
 }
 
-// ÀH¾÷¥´¶Ã arr[1..n]
+// éš¨æ©Ÿæ‰“äº‚ arr[1..n]
 void permute(int* arr, int n) {
     for (int i = n; i >= 2; --i) {
         int j = rand() % i + 1;
@@ -26,7 +26,7 @@ void permute(int* arr, int n) {
     }
 }
 
-// ¦X¨Ö [l..m] ©M [m+1..r]
+// åˆä½µ [l..m] å’Œ [m+1..r]
 void merge(int* a, int l, int m, int r, int* tmp) {
     for (int i = l; i <= r; ++i) tmp[i] = a[i];
     int i = l, j = m + 1, k = l;
@@ -38,7 +38,7 @@ void merge(int* a, int l, int m, int r, int* tmp) {
     while (j <= r) a[k++] = tmp[j++];
 }
 
-// »¼°j Merge Sort
+// éè¿´ Merge Sort
 void mergeSort(int* a, int l, int r, int* tmp) {
     if (l >= r) return;
     int m = (l + r) / 2;
@@ -50,40 +50,40 @@ void mergeSort(int* a, int l, int r, int* tmp) {
 int main() {
     srand((unsigned)time(nullptr));
     int loopcount;
-    cout << "´`Àô´X¦¸: ";
+    cout << "å¾ªç’°å¹¾æ¬¡: ";
     cin >> loopcount;
     int n;
-    cout << "½Ğ¿é¤J­n´Xµ§´ú¸ê: ";
+    cout << "è«‹è¼¸å…¥è¦å¹¾ç­†æ¸¬è³‡: ";
     cin >> n;
     printMemoryUsage();
     while (loopcount > 0) {
         loopcount -= 1;
 
-        // 1) «Ø¥ß 1..n ¨Ã¥´¶Ã
+        // 1) å»ºç«‹ 1..n ä¸¦æ‰“äº‚
         int* arr = new int[n + 1];
         for (int i = 1; i <= n; ++i) arr[i] = i;
         permute(arr, n);
-        cout << "¤w¥Í¦¨¨ÃÀH¾÷¥´¶Ã " << n << " µ§´ú¸ê¡C\n";
+        cout << "å·²ç”Ÿæˆä¸¦éš¨æ©Ÿæ‰“äº‚ " << n << " ç­†æ¸¬è³‡ã€‚\n";
 
        // printMemoryUsage();
 
-        // 2) «O¯d¡u­ì©l¥¼±Æ§Ç¡v³Æ¥÷
+        // 2) ä¿ç•™ã€ŒåŸå§‹æœªæ’åºã€å‚™ä»½
         int* orig = new int[n + 1];
         memcpy(orig + 1, arr + 1, n * sizeof(int));
 
-        // 3) »²§U°}¦C
+        // 3) è¼”åŠ©é™£åˆ—
         int* tmp = new int[n + 1];
 
-        // 4) Merge Sort ­p®É
+        // 4) Merge Sort è¨ˆæ™‚
         auto start = steady_clock::now();
         mergeSort(arr, 1, n, tmp);
         auto end = steady_clock::now();
         long long dur = duration_cast<microseconds>(end - start).count();
-        cout << "Merge Sort ¯Ó®É: " << dur << " ·L¬í\n";
+        cout << "Merge Sort è€—æ™‚: " << dur << " å¾®ç§’\n";
 
        // printMemoryUsage();
 
-        // 5) §ó·s max_data.txt¡]¥u¼g­ì©l¥¼±Æ§Ç¸ê®Æ¡^
+        // 5) æ›´æ–° max_data.txtï¼ˆåªå¯«åŸå§‹æœªæ’åºè³‡æ–™ï¼‰
         const char* F = "max_data.txt";
         long long prev = 0;
         ifstream infile(F);
@@ -95,10 +95,10 @@ int main() {
             for (int i = 1; i <= n; ++i) {
                 outfile << orig[i] << (i < n ? ' ' : '\n');
             }
-            cout << "¤w§ó·s " << F << "¡]§t­ì©l¥¼±Æ§Ç´ú¸ê¡^¡C\n";
+            cout << "å·²æ›´æ–° " << F << "ï¼ˆå«åŸå§‹æœªæ’åºæ¸¬è³‡ï¼‰ã€‚\n";
         }
         else {
-            cout << "¥Ø«e³Ì¤j¯Ó®É " << prev << " ·L¬í¡A¥¼§ó·sÀÉ®×¡C\n";
+            cout << "ç›®å‰æœ€å¤§è€—æ™‚ " << prev << " å¾®ç§’ï¼Œæœªæ›´æ–°æª”æ¡ˆã€‚\n";
         }
 
         delete[] arr;
