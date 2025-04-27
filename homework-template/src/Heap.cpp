@@ -9,7 +9,7 @@
 using namespace std;
 using namespace chrono;
 
-// ±N arr[1..n] ÀH¾÷¥´¶Ã
+// å°‡ arr[1..n] éš¨æ©Ÿæ‰“äº‚
 void permute(int* arr, int n) {
     for (int i = n; i >= 2; --i) {
         int j = rand() % i + 1;
@@ -17,7 +17,7 @@ void permute(int* arr, int n) {
     }
 }
 
-// Åã¥Ü¥Ø«eµ{¦¡ªº°O¾ĞÅé¨Ï¥Î±¡ªp
+// é¡¯ç¤ºç›®å‰ç¨‹å¼çš„è¨˜æ†¶é«”ä½¿ç”¨æƒ…æ³
 void printMemoryUsage() {
     PROCESS_MEMORY_COUNTERS memInfo;
     GetProcessMemoryInfo(GetCurrentProcess(), &memInfo, sizeof(memInfo));
@@ -27,7 +27,7 @@ void printMemoryUsage() {
     cout << "----------------------------------------------------------" << endl;
 }
 
-// ½Õ¾ã³Ì¤j°ï¿n
+// èª¿æ•´æœ€å¤§å †ç©
 template <class T>
 void Adjust(T* a, const int root, const int n)
 {
@@ -43,11 +43,11 @@ void Adjust(T* a, const int root, const int n)
 }
 
 
-// °ï¿n±Æ§Ç
+// å †ç©æ’åº
 template <class T>
 void HeapSort(T* a, const int n)
 {
-    // «Ø¥ß°ï¿n
+    // å»ºç«‹å †ç©
     for (int i = n / 2; i >= 1; i--)
     {
         Adjust(a, i, n);
@@ -61,16 +61,16 @@ void HeapSort(T* a, const int n)
 
 int main()
 {
-    srand((unsigned)time(nullptr)); // ÀH¾÷ºØ¤l
+    srand((unsigned)time(nullptr)); // éš¨æ©Ÿç¨®å­
     printMemoryUsage();
 
     int n;
-    cout << "½Ğ¿é¤J­n´Xµ§´ú¸ê¡G";
+    cout << "è«‹è¼¸å…¥è¦å¹¾ç­†æ¸¬è³‡ï¼š";
     cin >> n;
     int choice;
-    cout << "¿ï¾Üª©¥» 1.Average case, 2.Worst case: ";
+    cout << "é¸æ“‡ç‰ˆæœ¬ 1.Average case, 2.Worst case: ";
     cin >> choice;
-    // °ÊºA°t¸m°}¦C¡Aarr[1..n]
+    // å‹•æ…‹é…ç½®é™£åˆ—ï¼Œarr[1..n]
     int* arr = new int[n + 1];
     int* tempArr = new int[n + 1];
     int* worstCaseArr = new int[n + 1];
@@ -78,42 +78,42 @@ int main()
     printMemoryUsage();
 
     int testCount;
-    // ´ú¸Õ¦¸¼Æ¡G¤pn¦h¦¸¡A¤jn¤Ö¦¸
+    // æ¸¬è©¦æ¬¡æ•¸ï¼šå°nå¤šæ¬¡ï¼Œå¤§nå°‘æ¬¡
     if (n <= 1000) testCount = 1000;
     else if (n <= 10000) testCount = 500;
     else testCount = 10;
 
-    long long worst_time = -1; // ³ÌºC¯Ó®É¡]³æ¦ì¡G·L¬í¡^
-    long long average_time = 0; // ¥­§¡¯Ó®É(³æ¦ì¡G·L¬í)
-    // ¶}©l´ú¸Õ
+    long long worst_time = -1; // æœ€æ…¢è€—æ™‚ï¼ˆå–®ä½ï¼šå¾®ç§’ï¼‰
+    long long average_time = 0; // å¹³å‡è€—æ™‚(å–®ä½ï¼šå¾®ç§’)
+    // é–‹å§‹æ¸¬è©¦
     for (int t = 0; t < testCount; ++t)
     {
-        // ªì©l¤Æ arr ¬° 1..n
+        // åˆå§‹åŒ– arr ç‚º 1..n
         for (int i = 1; i <= n; ++i) {
             arr[i] = i;
         }
-        permute(arr, n); // ÀH¾÷¥´¶Ã
+        permute(arr, n); // éš¨æ©Ÿæ‰“äº‚
 
-        // §â¥Ø«e±Æ¦C³Æ¥÷¨ì tempArr¡]³Æ¥÷­ì©l±Æ¦C¡^
+        // æŠŠç›®å‰æ’åˆ—å‚™ä»½åˆ° tempArrï¼ˆå‚™ä»½åŸå§‹æ’åˆ—ï¼‰
         for (int i = 1; i <= n; ++i) {
             tempArr[i] = arr[i];
         }
 
-        // ¶}©l­p®É
+        // é–‹å§‹è¨ˆæ™‚
         auto start = steady_clock::now();
         HeapSort(arr, n);
         auto end = steady_clock::now();
 
-        // ­pºâ¯Ó®É¡]·L¬í¡^
+        // è¨ˆç®—è€—æ™‚ï¼ˆå¾®ç§’ï¼‰
         auto duration = duration_cast<microseconds>(end - start).count();
         if (choice == 1) {
             average_time += duration;
         }
-        // ¦pªG³o¦¸¤ñ«e­±ºC¡A§ó·s³Ì®t±¡ªp
+        // å¦‚æœé€™æ¬¡æ¯”å‰é¢æ…¢ï¼Œæ›´æ–°æœ€å·®æƒ…æ³
         if (duration > worst_time)
         {
             worst_time = duration;
-            // §â tempArr¡]­ì±Æ¦C¡^¦s¶i worstCaseArr
+            // æŠŠ tempArrï¼ˆåŸæ’åˆ—ï¼‰å­˜é€² worstCaseArr
             for (int i = 1; i <= n; ++i) {
                 worstCaseArr[i] = tempArr[i];
             }
@@ -121,12 +121,12 @@ int main()
     }
     if (choice == 1) {
         average_time /= testCount;
-        cout << "¥­§¡¯Ó®É¡G" << average_time << " ·L¬í" << endl;
+        cout << "å¹³å‡è€—æ™‚ï¼š" << average_time << " å¾®ç§’" << endl;
     }
     else {
-    cout << "³Ì®t±¡ªp¯Ó®É¡G" << worst_time << " ·L¬í" << endl;
+    cout << "æœ€å·®æƒ…æ³è€—æ™‚ï¼š" << worst_time << " å¾®ç§’" << endl;
     }
-    // ±N³Ì®t±¡ªpªº±Æ¦C¦s¦¨¤å¦rÀÉ
+    // å°‡æœ€å·®æƒ…æ³çš„æ’åˆ—å­˜æˆæ–‡å­—æª”
     ofstream outFile("worst_case_data.txt");
     if (outFile.is_open())
     {
@@ -135,11 +135,11 @@ int main()
             outFile << worstCaseArr[i] << " ";
         }
         outFile.close();
-        cout << "³ÌºCªº±Æ¦C¸ê®Æ¤w¸gÀx¦s¨ì 'worst_case_data.txt'" << endl;
+        cout << "æœ€æ…¢çš„æ’åˆ—è³‡æ–™å·²ç¶“å„²å­˜åˆ° 'worst_case_data.txt'" << endl;
     }
     else
     {
-        cerr << "¿ù»~¡GµLªk¼g¤JÀÉ®×¡I" << endl;
+        cerr << "éŒ¯èª¤ï¼šç„¡æ³•å¯«å…¥æª”æ¡ˆï¼" << endl;
     }
 
     delete[] arr;
