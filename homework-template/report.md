@@ -815,7 +815,7 @@ if (choice == 1) {
 
   | 演算法            | 平均時間     | 最壞時間    | 空間    |
   |------------------|------------|------------|-------|
-  | Insertion Sort   | $O(n²)$ | $O(n²)$ | $O(n)$) |
+  | Insertion Sort   | $O(n²)$ | $O(n²)$ | $O(n)$ |
   | Quick Sort       | $O(nlogn)$ | $O(n²)$ | $O(n)$ |
   | Merge Sort       | $O(nlogn)$ | $O(nlogn)$ | $O(n)$ |
   | Heap Sort        | $O(nlogn)$ | $O(nlogn)$ | $O(n)$ |
