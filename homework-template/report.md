@@ -788,6 +788,39 @@ if (choice == 1) {
 
 ## 申論及開發報告
 
+## 申論及開發報告
+
+- **設計動機**  
+  比較 Insertion/Quick/Merge/Heap 四種排序在平均及最壞情況下的效能差異，驗證理論複雜度。
+
+- **實作特色**  
+  - **Insertion Sort**：利用哨兵位元與 `memcpy` 還原原始資料，2000 次迴圈取平均。  
+  - **Quick Sort**：最左樞軸＋顯式 `stack` 模擬遞迴，保證不爆棧；隨機輸入 \(O(n\log n)\)、有序輸入退化 \(O(n^2)\) :contentReference[oaicite:0]{index=0}&#8203;:contentReference[oaicite:1]{index=1}。  
+  - **Merge Sort**：遞迴分治＋線性合併，無論輸入皆 \(Θ(n\log n)\)，合併需 \(O(n)\) 暫存 :contentReference[oaicite:2]{index=2}&#8203;:contentReference[oaicite:3]{index=3}。  
+  - **Heap Sort**：自底向上建堆 \(O(n)\)，再 Extract-Max \(O(n\log n)\)，Worst/Average 都 \(Θ(n\log n)\) :contentReference[oaicite:4]{index=4}&#8203;:contentReference[oaicite:5]{index=5}。
+
+- **測試策略**  
+  - **Average Case**：同一筆隨機資料，多次 `memcpy` 還原，2000 次排序取平均。  
+  - **Worst Case**：  
+    - Insertion/Quick：直接產生反序或有序陣列，單次計時。  
+    - Merge/Heap：多次隨機打亂，挑最慢一次並記錄。
+
+- **複雜度一覽**
+
+  | 演算法            | 平均時間     | 最壞時間    | 空間    |
+  |------------------|------------|------------|-------|
+  | Insertion Sort   | \(O(n^2)\) | \(O(n^2)\) | \(O(n)\) |
+  | Quick Sort       | \(O(n\log n)\) | \(O(n^2)\) | \(O(n)\) |
+  | Merge Sort       | \(O(n\log n)\) | \(O(n\log n)\) | \(O(n)\) |
+  | Heap Sort        | \(O(n\log n)\) | \(O(n\log n)\) | \(O(n)\) |
+
+- **結論**  
+  - 小規模資料選 Insertion；  
+  - Quick Sort 隨機資料表現佳，但應避免退化輸入；  
+  - 大型資料建議 Merge 或 Heap，維持穩定 \(n\log n\) 性能。
+
+
+
 ### 選擇遞迴的原因
 
 在本程式中，使用遞迴來計算連加總和的主要原因如下：
