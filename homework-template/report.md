@@ -809,14 +809,14 @@ if (choice == 1) {
     利用哨兵位元與 `memcpy` 還原原始資料，2000 次迴圈取平均。  
   - **Quick Sort**：  
     1.以最左元素為 pivot，避免深度遞迴用顯式 stack[] 模擬，防止 Worst Case 深度。  
-    2.Average case的時間複雜度 \(O(n\log n)\);Worst Case的時間複雜度 \(O(n^2)\) 。  
+    2.Average case的時間複雜度 $O(nlog n)$ ;Worst Case的時間複雜度 $O(n^2)$ 。  
   - **Merge Sort**：  
     1.標準分治：先遞迴切半、再合併。  
-    2.無論輸入順序皆為 \(Θ(n\log n)\)。  
+    2.無論輸入順序皆為 $O(n log n)$。  
     3.每次合併需一個 $n$大小的暫存陣列。  
   - **Heap Sort**：  
     1.先做一次自底向上建堆 $O(n)$，再 Extract-Max $O(nlog n)$。  
-    2.Worst/Average 的時間複雜度都為 $Θ(nlogn)$ 。  
+    2.Worst/Average 的時間複雜度都為 $O(nlogn)$ 。  
 
 - **測試策略**  
   - **Average Case**：同一筆隨機資料，多次 `memcpy` 還原，2000 次排序取平均。  
