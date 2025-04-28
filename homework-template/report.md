@@ -176,13 +176,6 @@ int main() {
 
 ![Insertion](<https://github.com/41243240/Example/blob/main/Insertion.png> "Insertion")
 
-
-### 編譯與執行指令
-
-```shell
-g++ -std=c++17 -O2 Insertion.cpp -o Insertion
-./Insertion
-```
 ### Quick sort 解題策略
 
 1. 輸入測資數量後產生測試資料
