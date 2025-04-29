@@ -796,6 +796,10 @@ if (choice == 1) {
 3. 根據筆數去選擇最短時間的排序法
 4. 排序後輸出花費的時間與記憶體花費
 
+## 程式實作
+
+## 效能分析
+
 ## 結論
 ### 各排序方法的Worst Case耗費時間比較
 ![worst_case](<https://github.com/41243240/Example/blob/main/worst_case.png> "worst case")
