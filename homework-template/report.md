@@ -1065,8 +1065,6 @@ else {
 | $n=4000$   |     919 (Heap sort)     | 400.697 (Merge sort) | 
 | $n=5000$   |     1076 (Heap sort)     | 512.725 (Merge sort) |
 
-
-
 ## 結論
 ### 各排序方法的Worst Case耗費時間比較
 ![worst_case](<https://github.com/41243240/Example/blob/main/worst_case.png> "worst case")
