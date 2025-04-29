@@ -983,7 +983,7 @@ if (mode == 1) {
         printMemoryUsage(); // 排序後再看一次記憶體
     }
 ```
-若選擇Worst case則會根據一開始輸入的n來做判斷，如果n在500、1000、2000時，會執行Quick sort，如果n在3000、4000、5000時，則會執行Heap sort
+若選擇Worst case則會根據一開始輸入的n來做判斷，如果n在500、1000時，會執行Quick sort，如果n在2000、3000、4000、5000時，則會執行Heap sort
 ```cpp
 else if (mode == 2) {
         // 最壞情況
@@ -994,7 +994,7 @@ else if (mode == 2) {
         long long duration;
         string selectedAlgorithm;
 
-        if (n == 500 || n == 1000 || n == 2000) {
+        if (n == 500 || n == 1000 ) {
             selectedAlgorithm = "Quick Sort";
             for (int i = 1; i <= n; ++i) arr[i] = i;
             auto start = steady_clock::now();
@@ -1002,7 +1002,7 @@ else if (mode == 2) {
             auto end = steady_clock::now();
             duration = duration_cast<microseconds>(end - start).count();
         }
-        else if (n == 3000 || n == 4000 || n == 5000) {
+        else if (n==2000 || n == 3000 || n == 4000 || n == 5000) {
             selectedAlgorithm = "Heap Sort";
             for (int i = 1; i <= n; ++i) arr[i] = i;
             auto start = steady_clock::now();
@@ -1072,13 +1072,13 @@ Heap sort
 
 ### 測試案例
 
-經過前面四個排序法的測式統整，在最壞情況下，n=500、1000、2000時是Quick sort最快，因此使用Quick sort，而n=3000、4000、5000時是Heap sort最快，因此使用Heap sort，在平均情況下在任何的測資數中都是使用Merge sort
+經過前面四個排序法的測式統整，在最壞情況下，n=500、1000時是Quick sort最快，因此使用Quick sort，而n=2000、3000、4000、5000時是Heap sort最快，因此使用Heap sort，在平均情況下在任何的測資數中都是使用Merge sort
 
 |  測資數量   | Worst case(microseconds)   | Average case(microseconds) | 
 |------------|----------------------------|----------------------------|
 | $n=500$    |     185 (Quick sort)     | 31.439 (Merge sort)        |
-| $n=1000$   |     529 (Quick sort)      | 78.772 (Merge sort)        |
-| $n=2000$   |     1703 (Quick sort)      | 183.914 (Merge sort)       |
+| $n=1000$   |     414 (Quick sort)      | 78.772 (Merge sort)        |
+| $n=2000$   |     477 (Heap sort)      | 183.914 (Merge sort)       |
 | $n=3000$   |     623 (Heap sort)      | 291.267 (Merge sort)      |
 | $n=4000$   |     919 (Heap sort)     | 400.697 (Merge sort) | 
 | $n=5000$   |     1076 (Heap sort)     | 512.725 (Merge sort) |
