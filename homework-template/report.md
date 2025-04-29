@@ -1058,12 +1058,12 @@ else {
 
 |  測資數量   | Worst case(microseconds)   | Average case(microseconds) | 
 |------------|----------------------------|----------------------------|
-| $n=500$    |     185(Quick sort)     | 31.439(Merge sort)        |
-| $n=1000$   |     529(Quick sort)      | 78.772(Merge sort)        |
-| $n=2000$   |     1703(Quick sort)      | 183.914(Merge sort)       |
-| $n=3000$   |     623(Heap sort)      | 291.267(Merge sort)      |
-| $n=4000$   |     919(Heap sort)     | 400.697(Merge sort) | 
-| $n=5000$   |     1076(Heap sort)     | 512.725(Merge sort) |
+| $n=500$    |     185 (Quick sort)     | 31.439 (Merge sort)        |
+| $n=1000$   |     529 (Quick sort)      | 78.772 (Merge sort)        |
+| $n=2000$   |     1703 (Quick sort)      | 183.914 (Merge sort)       |
+| $n=3000$   |     623 (Heap sort)      | 291.267 (Merge sort)      |
+| $n=4000$   |     919 (Heap sort)     | 400.697 (Merge sort) | 
+| $n=5000$   |     1076 (Heap sort)     | 512.725 (Merge sort) |
 
 
 
