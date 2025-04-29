@@ -1070,6 +1070,7 @@ Heap sort
 
 ![WorstCase_Heap](<https://github.com/41243253/example-1/blob/main/WorstCaseHeap.png> "WorstCase_Heap")
 
+![Composite](<https://github.com/41243240/Example/blob/main/Composite.png> "Composite")  
 ### 測試案例
 
 經過前面四個排序法的測式統整，在最壞情況下，n=500、1000時是Quick sort最快，因此使用Quick sort，而n=2000、3000、4000、5000時是Heap sort最快，因此使用Heap sort，在平均情況下在任何的測資數中都是使用Merge sort
@@ -1085,7 +1086,7 @@ Heap sort
 
 ## 結論
 ### 各排序方法的Worst Case耗費時間比較
-![worst_case](<https://github.com/41243240/Example/blob/main/worst_case.png> "worst case")
+![worst_case](<https://github.com/41243240/Example/blob/main/Worst.png> "worst case")
 ### 各排序方法的Average Case耗費時間比較
 ![average](<https://github.com/41243240/Example/blob/main/average.png> "average")  
 
