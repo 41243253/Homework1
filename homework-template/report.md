@@ -1099,6 +1099,7 @@ Heap sort
   | Quick Sort       | $O(nlogn)$ | $O(n²)$ | $O(n)$ |
   | Merge Sort       | $O(nlogn)$ | $O(nlogn)$ | $O(n)$ |
   | Heap Sort        | $O(nlogn)$ | $O(nlogn)$ | $O(n)$ |  
+  | Composite Sort        | $O(nlogn)$ | $O(n²)$ (Quick)、 $O(nlogn)$ (Heap) | $O(n)$ | 
   
 1. 各個排序程式能正確從小到大做排序。  
 2. 在選擇不同的Case能產出對應的花費時間。  
@@ -1106,7 +1107,7 @@ Heap sort
 ## 申論及開發報告
 
 - **設計動機**  
-  比較 Insertion/Quick/Merge/Heap 四種排序在平均及最壞情況下的效能差異，驗證理論複雜度。
+  比較 Insertion/Quick/Merge/Heap/Composite 五種排序在平均及最壞情況下的效能差異，驗證理論複雜度。
 
 - **實作重點**  
   - **Insertion Sort**：
@@ -1121,6 +1122,9 @@ Heap sort
   - **Heap Sort**：  
     - 實作方式：先做一次自底向上建堆 $O(n)$，再反覆 Extract-Max $O(nlog n)$，Average case 以 memcpy 還原隨機資料，Worst case 多次打亂並挑最慢樣本記錄其原始排列。  
     - 選擇理由：  $O(1)$核心空間、典型 $O(nlogn)$演算法；Worst case 樣本捕捉設計凸顯隨機與最差情境性能差異。  
+  - **Composite Sort**：  
+    - 實作方式：經以上四種排序法比較最短耗時後，依輸入筆數去判斷該筆數去使用對應的排序法。  
+    - 選擇理由：使用者輸入不同的筆數後，可以利用最短時間的排序法來做排序，更有效率。
 
 - **測試策略**  
   - **Average Case**：同一筆隨機資料，多次 `memcpy` 還原，2000 次排序取平均。  
