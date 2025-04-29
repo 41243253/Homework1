@@ -1054,6 +1054,15 @@ else {
 平均情況(Merge sort)
 
 ![AverageCase_Merge](<https://github.com/41243253/example-1/blob/main/AverageCaseMerge.png> "AverageCase_Merge")
+
+最壞情況(Quick sort)
+
+![WorstCase_Quick](<https://github.com/41243253/example-1/blob/main/WorstCaseQuick.png> "WorstCase_Quick")
+
+最壞情況(Heap sort)
+
+![WorstCase_Heap](<https://github.com/41243253/example-1/blob/main/WorstCaseHeap.png> "WorstCase_Heap")
+
 ### 測試案例
 
 經過前面四個排序法的測式統整，在最壞情況下，n=500、1000、2000時是Quick sort最快，因此使用Quick sort，而n=3000、4000、5000時是Heap sort最快，因此使用Heap sort，在平均情況下在任何的測資數中都是使用Merge sort
