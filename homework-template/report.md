@@ -788,7 +788,13 @@ if (choice == 1) {
 | $n=5000$   |     2447     | 814.952 |
 
 ![Heap](<https://github.com/41243240/Example/blob/main/Heap.png> "Heap")  
-雖然Average case和Worst case理應為差不多的曲線，但因測試時是取最糟糕的資料與時間，其中包含了程式的預熱這些的因素，所以結果才會有明顯的差異，但在實際執行與查看時大部分時間是與Average case差不多的。  
+雖然Average case和Worst case理應為差不多的曲線，但因測試時是取最糟糕的資料與時間，其中包含了程式的預熱這些的因素，所以結果才會有明顯的差異，但在實際執行與查看時大部分時間是與Average case差不多的。
+### Composite sort 解題策略
+
+1. 輸入測資數量後產生測試資料
+2. 根據選擇的case產生對應case的耗費時間  
+3. 根據筆數去選擇最短時間的排序法
+4. 排序後輸出花費的時間與記憶體花費
 
 ## 結論
 ### 各排序方法的Worst Case耗費時間比較
