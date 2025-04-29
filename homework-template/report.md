@@ -1088,7 +1088,7 @@ Heap sort
 ### 各排序方法的Worst Case耗費時間比較
 ![worst_case](<https://github.com/41243240/Example/blob/main/Worst.png> "worst case")
 ### 各排序方法的Average Case耗費時間比較
-![average](<https://github.com/41243240/Example/blob/main/average.png> "average")  
+![average1](<https://github.com/41243240/Example/blob/main/average1.png> "average1")  
 
 ### 各排序法複雜度一覽
 
