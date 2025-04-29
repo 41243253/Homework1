@@ -798,6 +798,23 @@ if (choice == 1) {
 
 ## 程式實作
 
+以下為使用的標頭：
+
+```cpp
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <ctime>
+#include <cstring>    // 記憶體操作（像是memcpy）
+#include <chrono>     // 時間量測工具
+#include <Windows.h>  // Windows API（用來取得記憶體資訊）
+#include <Psapi.h>    // 輔助記憶體資訊用
+using namespace std;
+using namespace chrono;
+```
+以下為使用的函式：
+
+
 ## 效能分析
 ### Average case:
 
