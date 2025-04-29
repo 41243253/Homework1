@@ -1054,9 +1054,7 @@ else {
 
 ### 測試案例
 
-經過前面四個排序法的測式統整
-1.在最壞情況下，n=500、1000、2000時是Quick sort最快，因此使用Quick sort，而n=3000、4000、5000時是Heap sort最快，因此使用Heap sort
-2.在平均情況下在任何的測資數中都是使用Merge sort
+經過前面四個排序法的測式統整，在最壞情況下，n=500、1000、2000時是Quick sort最快，因此使用Quick sort，而n=3000、4000、5000時是Heap sort最快，因此使用Heap sort，在平均情況下在任何的測資數中都是使用Merge sort
 
 |  測資數量   | Worst case(microseconds)   | Average case(microseconds) | 
 |------------|----------------------------|----------------------------|
