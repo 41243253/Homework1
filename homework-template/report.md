@@ -1064,7 +1064,7 @@ Heap sort
 
 最壞情況(Quick sort)
 
-![WorstCase_Quick](<https://github.com/41243253/example-1/blob/main/WorstCaseQuick.png> "WorstCase_Quick")
+![WorstCase_Quick](<https://github.com/41243253/example-1/blob/main/WorstcaseQuick.png> "WorstCase_Quick")
 
 最壞情況(Heap sort)
 
