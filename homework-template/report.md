@@ -1052,6 +1052,7 @@ else {
 
 ### 執行結果示意
 平均情況(Merge sort)
+
 ![AverageCase_Merge](<https://github.com/41243253/example-1/blob/main/AverageCaseMerge.png> "AverageCase_Merge")
 ### 測試案例
 
