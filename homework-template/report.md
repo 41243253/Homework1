@@ -84,7 +84,7 @@ int main() {
 若選擇Average case則會讀取檔案的資料(正整數)，並執行2000次的循環後將執行時間平均後顯示
 ```cpp
     if (mode == 1) {
-        // Average Case: 從 data.txt 讀入 n 筆資料，重複排序 2000 次取平均
+        // Average Case: 從 testdata1000.txt 讀入 n 筆資料，重複排序 2000 次取平均
         int* orig = new int[n + 1];
         ifstream fin("testdata1000.txt");
         if (!fin) {
