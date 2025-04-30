@@ -704,7 +704,7 @@ if (choice == 1) {
 ### 若選擇Worst case有以下的步驟  
 1.則根據輸入的測資數分別做1000、500或10次的循環  
 2.並產生n筆資料後呼叫函式打亂  
-3.將資料給Heap sort來去做排序
+3.將資料給Heap sort來去做排序  
 4.並將在循環次數中的耗費最久時間的情況記錄至worst_case_data.txt中
 ```cpp
     else if (choice == 2) {
