@@ -19,44 +19,42 @@ void printMemoryUsage() {
     cout << "----------------------------------------------------------\n";
 }
 
-// 非遞迴 QuickSort（pivot 固定為最左邊）
+// 快速排序(非遞迴版）
 template <class T>
 void QuickSortIterative(T* a, int left, int right) {
-    struct Range { int l, r; };
-    int maxSize = right - left + 1;
-    Range* stack = new Range[maxSize];
-    int top = 0;
-    stack[top] = { left, right };
+    struct Range { int l, r; }; // 定義一個範圍結構，儲存左右邊界
+    int maxSize = right - left + 1; // Stack大小設定為資料數量（最壞情況）
+    Range* stack = new Range[maxSize]; // 動態分配stack
+    int top = 0; // stack頂端指標
+    stack[top] = { left, right }; // 將初始範圍推進stack
 
-    while (top >= 0) {
-        Range cur = stack[top--];
+    while (top >= 0) { // 當stack還有東西
+        Range cur = stack[top--]; // 取出一個區間來處理
         int L = cur.l, R = cur.r;
         if (L < R) {
-            // partition
-            T pivot = a[L];
+            T pivot = a[L]; // 取最左邊作為pivot
             int i = L + 1, j = R;
             while (true) {
-                while (i <= R && a[i] < pivot) ++i;
-                while (j >= L + 1 && a[j] > pivot) --j;
-                if (i < j) swap(a[i], a[j]);
+                while (i <= R && a[i] < pivot) ++i; // 找到>=pivot的
+                while (j >= L + 1 && a[j] > pivot) --j; // 找到<=pivot的
+                if (i < j) swap(a[i], a[j]); // 交換兩邊錯放的資料
                 else break;
             }
-            swap(a[L], a[j]);  // pivot 放中間
+            swap(a[L], a[j]); // 把pivot放到正確位置（中間）
 
-            // 先壓較大區間，後壓較小區間
+            // 為了避免stack過大，先推入較大的那邊（空間小優先）
             int leftSize = j - 1 - L;
             int rightSize = R - (j + 1);
             if (leftSize > rightSize) {
-                if (L < j - 1)     stack[++top] = { L,     j - 1 };
-                if (j + 1 < R)     stack[++top] = { j + 1, R };
+                if (L < j - 1) stack[++top] = { L, j - 1 }; // 左邊有資料就推入
+                if (j + 1 < R) stack[++top] = { j + 1, R }; // 右邊有資料就推入
             }
             else {
-                if (j + 1 < R)     stack[++top] = { j + 1, R };
-                if (L < j - 1)     stack[++top] = { L,     j - 1 };
+                if (j + 1 < R) stack[++top] = { j + 1, R };
+                if (L < j - 1) stack[++top] = { L, j - 1 };
             }
         }
     }
-
     delete[] stack;
 }
 
