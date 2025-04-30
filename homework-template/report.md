@@ -1109,8 +1109,8 @@ Heap sort
 
   | 演算法            | 平均時間     | 最壞時間    | 空間   |
   |------------------|--------------|------------|--------|
-  | Insertion Sort   |    $O(n²)$   |   $O(n²)$  | $O(n)$ |
-  | Quick Sort       |  $O(nlogn)$  |   $O(n²)$  | $O(n)$ |
+  | Insertion Sort   |    $O(n²)$   |   $O(n²)$  | $O(1)$ |
+  | Quick Sort       |  $O(nlogn)$  |   $O(n²)$  | $O(n)$(Worst)/ $O(logn)$(Average) |
   | Merge Sort       |  $O(nlogn)$  | $O(nlogn)$ | $O(n)$ |
   | Heap Sort        |  $O(nlogn)$  | $O(nlogn)$ | $O(1)$ |  
   | Composite Sort   |  $O(nlogn)$  | $O(n²)$ (Quick)、 $O(nlogn)$ (Heap) | $O(n)$ | 
