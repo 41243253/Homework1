@@ -155,7 +155,7 @@ int main() {
    - 詳細分析: $S_{\mathrm{ins}}(n)=\sum_{k=1}^{m}O(1)=m\cdot O(1)=\Theta(1)$。  
     
 ### Worst case:
-1. 時間複雜度：程式的時間複雜度也為 $O(n²)$ ，每次都需將新元素插入到已排序的陣列中，比對也要花 $O(n)$次。  
+1. 時間複雜度：程式的時間複雜度也為 $O(n²)$ ，每次都需將新元素插入到已排序的陣列中，在插入第n個元素要將資料往後移n次。   
    -詳細分析: $T_{\mathrm{ins,worst}}(n)=\sum_{j=2}^{n}j=\tfrac{n(n+1)}{2}-1=\Theta(n^{2})$。  
 2. 空間複雜度：空間複雜度為 $O(n)$，因為在程式中動態分佈了兩個長度為n+1陣列，且經過記憶體量測與計算後確實為n的記憶體花費。  
    - 詳細分析: $S_{\mathrm{ins}}(n)=\sum_{k=1}^{m}O(1)=m\cdot O(1)=\Theta(1)$。  
@@ -331,12 +331,12 @@ void printMemoryUsage() {
 ```
 ## 效能分析
 ### Average case:
-1. 時間複雜度：程式的時間複雜度為 $O(n log n)$ ，每次都需將新元素插入到已排序的陣列中，比對也要花 $O(n)$次。
+1. 時間複雜度：程式的時間複雜度為 $O(n log n)$ ，當 pivot 通常能把子陣列對半切割時，且每層需 $O(n)$ 處理，所以為 $O(nlogn)$ 
     - 詳細分析: $T_{\mathrm{quick,avg}}(n)=\frac{1}{n}\sum_{k=0}^{n-1}\bigl[T(k)+T(n-k-1)\bigr]+\Theta(n)\approx2T\bigl(\tfrac{n}{2}\bigr)+\Theta(n)=\Theta(n\log n)$。  
 2. 空間複雜度：空間複雜度為 $O(logn)$，一開始分配了n個Range，但在Average的情況中Pivot能大約一分為二則他的空間複雜度則為 $O(logn)$。  
     - 詳細分析: $S_{\mathrm{active,avg}}(n)=O(\log n)\cdot s_{\mathrm{range}}+O(1)=\Theta(\log n)$。    
 ### Worst case:
-1. 時間複雜度：程式的時間複雜度為 $O(n²)$ ，對"已排序"或由小到大的排序數據，每次都從最左選一個元素。  
+1. 時間複雜度：程式的時間複雜度為 $O(n²)$ ，對"已排序"或由小到大的排序數據，每次都從最左選一個最小的元素會導致分割不平衡，從而導致需要做n次。  
     - 詳細分析: $T_{\mathrm{quick,worst}}(n)=T(n-1)+\Theta(n)=\sum_{i=1}^{n}\Theta(i)=\Theta(n^{2})$。  
 2. 空間複雜度：空間複雜度為 $O(n)$，一開始分配了n個Range，在Worst case中通常會呈樹狀劃分高度退化，故他的空間複雜度為 $O(n)$。  
     - 詳細分析: $S_{\mathrm{active,worst}}(n)=n\cdot s_{\mathrm{range}}+O(1)=\Theta(n)$。  
