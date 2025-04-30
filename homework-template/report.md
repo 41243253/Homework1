@@ -779,13 +779,13 @@ if (choice == 1) {
 ### Average case:
 1. 時間複雜度：程式的時間複雜度為 $O(n log n)$ ，先 $O(n)$ 建堆，再執行 $n-1$次 $O(log n)$。  
    - 詳細分析: $T_{\mathrm{heap,avg}}(n)=\sum_{i=1}^{\lfloor n/2\rfloor}O(h_i)+\sum_{k=1}^{n-1}O(\log k)=O(n)+O(n\log n)=\Theta(n\log n)$。  
-2. 空間複雜度：空間複雜度為 $O(1)$，原地排序，只需常數級輔助變數，不含輸入陣列。  
-   - 詳細分析: $S_{\mathrm{heap}}(n)=\sum_{k=1}^{m}O(1)=m\cdot O(1)=\Theta(1)$。   
+2. 空間複雜度：空間複雜度為 $O(n)$，讀檔與建構原始陣列需消耗 $O(n)$的空間，但在排序過程中，Heap Sort 使用原地交換元素，不需要創新的輔助陣列，因此排序過程的額外空間複雜度為 $O(1)$  
+   - 詳細分析: $S(n)$= $O(n)$。  
 ### Worst case:
 1. 時間複雜度：程式的時間複雜度也為 $O(n log n)$ ，先 $O(n)$ 建堆，再執行 $n-1$次 $O(log n)$。  
    - 詳細分析: $T_{\mathrm{heap,worst}}(n)=\Theta(n\log n)$。   
-2. 空間複雜度：空間複雜度為 $O(n)$，原地排序，只需常數級輔助變數，不含輸入陣列。  
-   - 詳細分析: $S_{\mathrm{heap}}(n)=\sum_{k=1}^{m}O(1)=m\cdot O(1)=\Theta(1)$。   
+2. 空間複雜度：空間複雜度為 $O(n)$，讀檔與建構原始陣列需消耗 $O(n)$的空間，但在排序過程中，Heap Sort 使用原地交換元素，不需要創新的輔助陣列，因此排序過程的額外空間複雜度為 $O(1)$  
+   - 詳細分析: $S(n)$= $O(n)$。  
 
 ## 測試與驗證
 ### 執行結果示意
@@ -1112,7 +1112,7 @@ Heap sort
   | Insertion Sort   |    $O(n²)$   |   $O(n²)$  | $O(n)$ |
   | Quick Sort       |  $O(nlogn)$  |   $O(n²)$  | $O(n)$ |
   | Merge Sort       |  $O(nlogn)$  | $O(nlogn)$ | $O(n)$ |
-  | Heap Sort        |  $O(nlogn)$  | $O(nlogn)$ | $O(1)$ |  
+  | Heap Sort        |  $O(nlogn)$  | $O(nlogn)$ | $O(n)$ |  
   | Composite Sort   |  $O(nlogn)$  | $O(n²)$ (Quick)、 $O(nlogn)$ (Heap) | $O(n)$ | 
   
 1. 各個排序程式能正確從小到大做排序。  
