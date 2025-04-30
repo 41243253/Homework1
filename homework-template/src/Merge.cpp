@@ -27,25 +27,29 @@ void permute(int* arr, int n) {
     }
 }
 
-// 合併 [l..m] 和 [m+1..r]
+// 合併排序（遞迴版）
 void merge(int* a, int l, int m, int r, int* tmp) {
+    // 把目前區間[l..r]暫存到tmp陣列中
     for (int i = l; i <= r; ++i) tmp[i] = a[i];
+
     int i = l, j = m + 1, k = l;
+    // 合併左邊[l..m]和右邊[m+1..r]，兩邊都是已排序
     while (i <= m && j <= r) {
-        if (tmp[i] <= tmp[j]) a[k++] = tmp[i++];
-        else                  a[k++] = tmp[j++];
+        if (tmp[i] <= tmp[j]) a[k++] = tmp[i++]; // 小的先放進主陣列
+        else a[k++] = tmp[j++];
     }
+    // 把左邊或右邊剩下的資料直接接上去
     while (i <= m) a[k++] = tmp[i++];
     while (j <= r) a[k++] = tmp[j++];
 }
 
 // 遞迴 Merge Sort
 void mergeSort(int* a, int l, int r, int* tmp) {
-    if (l >= r) return;
-    int m = (l + r) / 2;
-    mergeSort(a, l, m, tmp);
-    mergeSort(a, m + 1, r, tmp);
-    merge(a, l, m, r, tmp);
+    if (l >= r) return; // 區間只有一個元素或無元素時結束
+    int m = (l + r) / 2; // 找中間
+    mergeSort(a, l, m, tmp);   // 左邊遞迴
+    mergeSort(a, m + 1, r, tmp); // 右邊遞迴
+    merge(a, l, m, r, tmp);   // 合併左右區間
 }
 
 int main() {
