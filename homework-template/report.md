@@ -777,12 +777,12 @@ if (choice == 1) {
 ```
 ## 效能分析
 ### Average case:
-1. 時間複雜度：程式的時間複雜度為 $O(n log n)$ ，先 $(O(n)$) 建堆，再執行 $n-1$次 $O(log n)$。  
+1. 時間複雜度：程式的時間複雜度為 $O(n log n)$ ，先 $O(n)$ 建堆，再執行 $n-1$次 $O(log n)$。  
    - 詳細分析: $T_{\mathrm{heap,avg}}(n)=\sum_{i=1}^{\lfloor n/2\rfloor}O(h_i)+\sum_{k=1}^{n-1}O(\log k)=O(n)+O(n\log n)=\Theta(n\log n)$。  
 2. 空間複雜度：空間複雜度為 $O(1)$，原地排序，只需常數級輔助變數，不含輸入陣列。  
    - 詳細分析: $S_{\mathrm{heap}}(n)=\sum_{k=1}^{m}O(1)=m\cdot O(1)=\Theta(1)$。   
 ### Worst case:
-1. 時間複雜度：程式的時間複雜度也為 $O(n log n)$ ，先 $(O(n)$) 建堆，再執行 $n-1$次 $O(log n)$。  
+1. 時間複雜度：程式的時間複雜度也為 $O(n log n)$ ，先 $O(n)$ 建堆，再執行 $n-1$次 $O(log n)$。  
    - 詳細分析: $T_{\mathrm{heap,worst}}(n)=\Theta(n\log n)$。   
 2. 空間複雜度：空間複雜度為 $O(n)$，原地排序，只需常數級輔助變數，不含輸入陣列。  
    - 詳細分析: $S_{\mathrm{heap}}(n)=\sum_{k=1}^{m}O(1)=m\cdot O(1)=\Theta(1)$。   
