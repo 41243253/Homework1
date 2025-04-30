@@ -150,13 +150,13 @@ int main() {
 ## 效能分析
 ### Average case:
 1. 時間複雜度：程式的時間複雜度為 $O(n²)$ ，每次都需將新元素插入到已排序的陣列中，比對也要花 $O(n)$次。  
-   - 詳細分析: $T(n)$ = $T​(n−1)$ + α/2*​n ⇒ $O(n²)$  
+   - 詳細分析: $T_{\mathrm{ins,avg}}(n)=\sum_{j=2}^{n}\bigl(\tfrac{j-1}{2}+1\bigr)=\tfrac{(n-1)n}{4}+(n-1)=\Theta(n^{2})$。  
 2. 空間複雜度：空間複雜度為 $O(n)$，因為在程式中動態分佈了兩個長度為n+1陣列，且經過記憶體量測與計算後確實為n的記憶體花費。  
    - 詳細分析: $S_{\mathrm{ins}}(n)=\sum_{k=1}^{m}O(1)=m\cdot O(1)=\Theta(1)$。  
     
 ### Worst case:
 1. 時間複雜度：程式的時間複雜度也為 $O(n²)$ ，每次都需將新元素插入到已排序的陣列中，比對也要花 $O(n)$次。  
-   -詳細分析: $Tw​(n)$= $Tw​(n−1)$+αn ⇒ $O(n²)$ 
+   -詳細分析: $T_{\mathrm{ins,worst}}(n)=\sum_{j=2}^{n}j=\tfrac{n(n+1)}{2}-1=\Theta(n^{2})$。  
 2. 空間複雜度：空間複雜度為 $O(n)$，因為在程式中動態分佈了兩個長度為n+1陣列，且經過記憶體量測與計算後確實為n的記憶體花費。  
    - 詳細分析: $S_{\mathrm{ins}}(n)=\sum_{k=1}^{m}O(1)=m\cdot O(1)=\Theta(1)$。  
 
@@ -554,12 +554,12 @@ void mergeSort(int* a, int l, int r, int* tmp) {
 ## 效能分析
 ### Average case:
 1. 時間複雜度：程式的時間複雜度為 $O(n log n)$ ，每次排序都是標準的 Merge Sort，對長度 n 的陣列做 ≈ $2T(n/2)$+ $O(n)$ 工作，2000 次循環只是常數倍，不改變漸進量級。
-    - 詳細分析: $T(n)$= $2T(n/2​)$+ $αn$⇒ $O(𝑛log⁡𝑛)$
+    - 詳細分析: $T_{\mathrm{merge,avg}}(n)=2\,T\bigl(\tfrac{n}{2}\bigr)+\Theta(n)=\Theta(n\log n)$。  
 2. 空間複雜度：空間複雜度為 $O(n)$，額外分配了三個大小≈n的陣列，合併時需要 $O(n)$的空間，且經過記憶體量測與計算後確實為n的記憶體花費。
     - 詳細分析: $S_{\mathrm{merge}}(n)=S_{\mathrm{tmp}}(n)+S_{\mathrm{stack}}(n)+\Theta(1)=\Theta(n)+\Theta(\log n)+\Theta(1)=\Theta(n)$。  
 ### Worst case:
 1. 時間複雜度：程式的時間複雜度也為 $O(n log n)$ ，Merge Sort 無論輸入為何（有序、逆序或隨機），都要完整地對半分+合併，仍是 $O(n log n)$。
-    - 詳細分析: $T(n)$= $2T(n/2​)$+ $αn$⇒ $O(𝑛log⁡𝑛)$
+    - 詳細分析: $T_{\mathrm{merge,worst}}(n)=\Theta(n\log n)$。  
 2. 空間複雜度：空間複雜度為 $O(n)$，額外分配了三個大小≈n的陣列，合併時需要 $O(n)$的空間，且經過記憶體量測與計算後確實為n的記憶體花費。
     - 詳細分析: $S_{\mathrm{merge}}(n)=S_{\mathrm{tmp}}(n)+S_{\mathrm{stack}}(n)+\Theta(1)=\Theta(n)+\Theta(\log n)+\Theta(1)=\Theta(n)$。  
 
