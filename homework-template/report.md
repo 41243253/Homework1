@@ -3,12 +3,12 @@
 
 作業一
 
-## 解題說明
+# 解題說明
 
 本題要求實現Insertion sort、Quick sort、Merge sort、Heap sort和Composite sort的
 Worst case和Average case所耗費的時間，並計算其空間複雜度
 
-### Insertion sort 解題策略
+## Insertion sort 解題策略
 
 1. 輸入測資數量後產生測試資料
 2. 根據選擇的case產生或讀入資料
@@ -167,16 +167,16 @@ int main() {
 
 |  測資數量   | Worst case(microseconds)   | Average case(microseconds) | 
 |------------|----------------------------|----------------------------|
-| $n=500$    |     222      | 94.861        |
-| $n=1000$   |     693      | 315.059        |
-| $n=2000$   |     2828      | 1268.36       |
-| $n=3000$   |     4658      | 2572.673       |
-| $n=4000$   |     8503     | 4657.093 | 
-| $n=5000$   |     12506     | 9541.387 |
+| $n=500$    |                 222        |              94.861        |
+| $n=1000$   |                 693        |             315.059        |
+| $n=2000$   |                2828        |             1268.36        |
+| $n=3000$   |                4658        |            2572.673        |
+| $n=4000$   |                8503        |            4657.093        | 
+| $n=5000$   |               12506        |            9541.387        |
 
 ![Insertion](<https://github.com/41243240/Example/blob/main/Insertion.png> "Insertion")
 
-### Quick sort 解題策略
+## Quick sort 解題策略
 
 1. 輸入測資數量後產生測試資料
 2. 根據選擇的case產生對應case的耗費時間  
@@ -349,15 +349,15 @@ void printMemoryUsage() {
 
 |  測資數量   | Worst case(microseconds)   | Average case(microseconds) | 
 |------------|----------------------------|----------------------------|
-| $n=500$    |     133      | 85.692        |
-| $n=1000$   |     358      | 196.415        |
-| $n=2000$   |     1332      | 437.87       |
-| $n=3000$   |     2853      | 698.887       |
-| $n=4000$   |     4994     | 986.374 | 
-| $n=5000$   |     8502     | 1261.150 |
+| $n=500$    |                   133      |              85.692        |
+| $n=1000$   |                   358      |             196.415        |
+| $n=2000$   |                  1332      |              437.87        |
+| $n=3000$   |                  2853      |             698.887        |
+| $n=4000$   |                  4994      |             986.374        | 
+| $n=5000$   |                  8502      |            1261.150        |
 
 ![Quick](<https://github.com/41243240/Example/blob/main/Quick.png> "Quick")
-### Merge sort 解題策略
+## Merge sort 解題策略
 
 1. 輸入測資數量後產生測試資料
 2. 根據選擇的case產生對應case的耗費時間  
@@ -555,16 +555,16 @@ void mergeSort(int* a, int l, int r, int* tmp) {
 
 |  測資數量   | Worst case(microseconds)   | Average case(microseconds) | 
 |------------|----------------------------|----------------------------|
-| $n=500$    |     555      | 31.750        |
-| $n=1000$   |     1260      | 76.029        |
-| $n=2000$   |     1743      | 180.106       |
-| $n=3000$   |     2345      | 282.655      |
-| $n=4000$   |     2632     | 392.676 | 
-| $n=5000$   |     2456     | 499.824 |
+| $n=500$    |            555             |              31.750        |
+| $n=1000$   |           1260             |              76.029        |
+| $n=2000$   |           1743             |             180.106        |
+| $n=3000$   |           2345             |             282.655        |
+| $n=4000$   |           2632             |             392.676        | 
+| $n=5000$   |           2456             |             499.824        |
 
 ![Merge](<https://github.com/41243240/Example/blob/main/Merge.png> "Merge")  
 雖然Average case和Worst case理應為差不多的曲線，但因測試時是取最糟糕的資料與時間，其中包含了程式的預熱這些的因素，所以結果才會有明顯的差異，但在實際執行與查看時大部分時間是與Average case差不多的。
-### Heap sort 解題策略
+## Heap sort 解題策略
 
 1. 輸入測資數量後產生測試資料
 2. 根據選擇的case產生對應case的耗費時間  
@@ -780,16 +780,16 @@ if (choice == 1) {
 
 |  測資數量   | Worst case(microseconds)   | Average case(microseconds) | 
 |------------|----------------------------|----------------------------|
-| $n=500$    |     433     | 59.813        |
-| $n=1000$   |     1306      | 133.557        |
-| $n=2000$   |     1755      | 291.417       |
-| $n=3000$   |     1877      | 457.263      |
-| $n=4000$   |     2213     | 634.300 | 
-| $n=5000$   |     2447     | 814.952 |
+| $n=500$    |             433            |              59.813        |
+| $n=1000$   |            1306            |             133.557        |
+| $n=2000$   |            1755            |             291.417        |
+| $n=3000$   |            1877            |             457.263        |
+| $n=4000$   |            2213            |             634.300        | 
+| $n=5000$   |            2447            |             814.952        |
 
 ![Heap](<https://github.com/41243240/Example/blob/main/Heap.png> "Heap")  
 雖然Average case和Worst case理應為差不多的曲線，但因測試時是取最糟糕的資料與時間，其中包含了程式的預熱這些的因素，所以結果才會有明顯的差異，但在實際執行與查看時大部分時間是與Average case差不多的。
-### Composite sort 解題策略
+## Composite sort 解題策略
 
 1. 輸入測資數量後產生測試資料
 2. 根據選擇的case產生對應case的耗費時間  
@@ -1077,12 +1077,12 @@ Heap sort
 
 |  測資數量   | Worst case(microseconds)   | Average case(microseconds) | 
 |------------|----------------------------|----------------------------|
-| $n=500$    |     185 (Quick sort)     | 31.439 (Merge sort)        |
-| $n=1000$   |     414 (Quick sort)      | 78.772 (Merge sort)        |
-| $n=2000$   |     477 (Heap sort)      | 183.914 (Merge sort)       |
-| $n=3000$   |     623 (Heap sort)      | 291.267 (Merge sort)      |
-| $n=4000$   |     919 (Heap sort)     | 400.697 (Merge sort) | 
-| $n=5000$   |     1076 (Heap sort)     | 512.725 (Merge sort) |  
+| $n=500$    |     185 (Quick sort)       |  31.439 (Merge sort)       |
+| $n=1000$   |     414 (Quick sort)       |  78.772 (Merge sort)       |
+| $n=2000$   |     477 (Heap sort)        | 183.914 (Merge sort)       |
+| $n=3000$   |     623 (Heap sort)        | 291.267 (Merge sort)       |
+| $n=4000$   |     919 (Heap sort)        | 400.697 (Merge sort)       | 
+| $n=5000$   |    1076 (Heap sort)        | 512.725 (Merge sort)       |  
 
 ![Composite](<https://github.com/41243240/Example/blob/main/Composite.png> "Composite")  
 ## 結論
@@ -1093,13 +1093,13 @@ Heap sort
 
 ### 各排序法複雜度一覽
 
-  | 演算法            | 平均時間     | 最壞時間    | 空間    |
-  |------------------|------------|------------|-------|
-  | Insertion Sort   | $O(n²)$ | $O(n²)$ | $O(n)$ |
-  | Quick Sort       | $O(nlogn)$ | $O(n²)$ | $O(n)$ |
-  | Merge Sort       | $O(nlogn)$ | $O(nlogn)$ | $O(n)$ |
-  | Heap Sort        | $O(nlogn)$ | $O(nlogn)$ | $O(n)$ |  
-  | Composite Sort        | $O(nlogn)$ | $O(n²)$ (Quick)、 $O(nlogn)$ (Heap) | $O(n)$ | 
+  | 演算法            | 平均時間     | 最壞時間    | 空間   |
+  |------------------|--------------|------------|--------|
+  | Insertion Sort   |    $O(n²)$   |   $O(n²)$  | $O(n)$ |
+  | Quick Sort       |  $O(nlogn)$  |   $O(n²)$  | $O(n)$ |
+  | Merge Sort       |  $O(nlogn)$  | $O(nlogn)$ | $O(n)$ |
+  | Heap Sort        |  $O(nlogn)$  | $O(nlogn)$ | $O(n)$ |  
+  | Composite Sort   |  $O(nlogn)$  | $O(n²)$ (Quick)、 $O(nlogn)$ (Heap) | $O(n)$ | 
   
 1. 各個排序程式能正確從小到大做排序。  
 2. 在選擇不同的Case能產出對應的花費時間。  
