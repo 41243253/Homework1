@@ -334,12 +334,12 @@ void printMemoryUsage() {
 1. 時間複雜度：程式的時間複雜度為 $O(n log n)$ ，當 pivot 通常能把子陣列對半切割時，且每層需 $O(n)$ 處理，所以為 $O(nlogn)$ 
     - 詳細分析: $T_{\mathrm{quick,avg}}(n)=\frac{1}{n}\sum_{k=0}^{n-1}\bigl[T(k)+T(n-k-1)\bigr]+\Theta(n)\approx2T\bigl(\tfrac{n}{2}\bigr)+\Theta(n)=\Theta(n\log n)$。  
 2. 空間複雜度：空間複雜度為 $O(n)$，一開始分配了n大小的陣列，即使他裡面未使用到這麼大的空間但也依然為 $O(n)$。  
-    - 詳細分析: $S_{\mathrm{active,avg}}(n)=O(\log n)\cdot s_{\mathrm{range}}+O(1)=\Theta(\log n)$。    
+    - 詳細分析: $Sa(n)$ = $O(n)$。    
 ### Worst case:
 1. 時間複雜度：程式的時間複雜度為 $O(n²)$ ，對"已排序"或由小到大的排序數據，每次都從最左選一個最小的元素會導致分割不平衡，從而導致需要做n次。  
     - 詳細分析: $T_{\mathrm{quick,worst}}(n)=T(n-1)+\Theta(n)=\sum_{i=1}^{n}\Theta(i)=\Theta(n^{2})$。  
 2. 空間複雜度：空間複雜度為 $O(n)$，一開始分配了n大小的陣列，即使他裡面未使用到這麼大的空間但也依然為 $O(n)$。  
-    - 詳細分析: $S_{\mathrm{active,worst}}(n)=n\cdot s_{\mathrm{range}}+O(1)=\Theta(n)$。  
+    - 詳細分析: $Sw(n)$ = $O(n)$。  
 
 ## 測試與驗證
 ### 執行結果示意
