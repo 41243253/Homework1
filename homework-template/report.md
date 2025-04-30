@@ -332,12 +332,12 @@ void printMemoryUsage() {
 ## 效能分析
 ### Average case:
 1. 時間複雜度：程式的時間複雜度為 $O(n log n)$ ，每次都需將新元素插入到已排序的陣列中，比對也要花 $O(n)$次。
-    - 詳細分析: $Ta​(n)$= $2Ta​(n/2​)$+ $αn$ ⇒ $O(nlog⁡n)$  
+    - 詳細分析: $T_{\mathrm{quick,avg}}(n)=\frac{1}{n}\sum_{k=0}^{n-1}\bigl[T(k)+T(n-k-1)\bigr]+\Theta(n)\approx2T\bigl(\tfrac{n}{2}\bigr)+\Theta(n)=\Theta(n\log n)$。  
 2. 空間複雜度：空間複雜度為 $O(logn)$，一開始分配了n個Range，但在Average的情況中Pivot能大約一分為二則他的空間複雜度則為 $O(logn)$。  
     - 詳細分析: $S_{\mathrm{active,avg}}(n)=O(\log n)\cdot s_{\mathrm{range}}+O(1)=\Theta(\log n)$。    
 ### Worst case:
 1. 時間複雜度：程式的時間複雜度為 $O(n²)$ ，對"已排序"或由小到大的排序數據，每次都從最左選一個元素。  
-    - 詳細分析: $Tw​(n)$= $Tw​(n−1)$+ $Tw​(0)$+ $αn$ ⇒ $O(n²)$。  
+    - 詳細分析: $T_{\mathrm{quick,worst}}(n)=T(n-1)+\Theta(n)=\sum_{i=1}^{n}\Theta(i)=\Theta(n^{2})$。  
 2. 空間複雜度：空間複雜度為 $O(n)$，一開始分配了n個Range，在Worst case中通常會呈樹狀劃分高度退化，故他的空間複雜度為 $O(n)$。  
     - 詳細分析: $S_{\mathrm{active,worst}}(n)=n\cdot s_{\mathrm{range}}+O(1)=\Theta(n)$。  
 
@@ -778,12 +778,12 @@ if (choice == 1) {
 ## 效能分析
 ### Average case:
 1. 時間複雜度：程式的時間複雜度為 $O(n log n)$ ，從文件讀入固定n個資料並對此做排序，每次都是建置好後交換n次，故時間複雜度為 $O(nlogn)$。
-   - 詳細分析:$T_{\mathrm{heap,avg}}(n)=\sum_{i=1}^{\lfloor n/2\rfloor}O(h_i)+\sum_{k=1}^{n-1}O(\log k)=O(n)+O(n\log n)=\Theta(n\log n)$。  
+   - 詳細分析: $T_{\mathrm{heap,avg}}(n)=\sum_{i=1}^{\lfloor n/2\rfloor}O(h_i)+\sum_{k=1}^{n-1}O(\log k)=O(n)+O(n\log n)=\Theta(n\log n)$。  
 2. 空間複雜度：空間複雜度為 $O(1)$，原地排序，只需常數級輔助變數，不含輸入陣列。  
    - 詳細分析: $S_{\mathrm{heap}}(n)=\sum_{k=1}^{m}O(1)=m\cdot O(1)=\Theta(1)$。   
 ### Worst case:
 1. 時間複雜度：程式的時間複雜度也為 $O(n log n)$ ，產生固定n筆資料並做排序，也是根據建置的資料來去交換n次，個時間複雜度為 $O(nlogn)$。
-   - 詳細分析: $Tw​(n)$= $Tw​(n−1)$+ $βlogn$ ⇒ $𝑇(𝑛)$= $𝛼𝑛$+ $∑𝛽log⁡𝑘$= $O(𝑛log⁡𝑛)$。   
+   - 詳細分析: $T_{\mathrm{heap,worst}}(n)=\Theta(n\log n)$。   
 2. 空間複雜度：空間複雜度為 $O(n)$，原地排序，只需常數級輔助變數，不含輸入陣列。  
    - 詳細分析: $S_{\mathrm{heap}}(n)=\sum_{k=1}^{m}O(1)=m\cdot O(1)=\Theta(1)$。   
 
