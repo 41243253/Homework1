@@ -778,7 +778,9 @@ if (choice == 1) {
 ## 效能分析
 ### Average case:
 1. 時間複雜度：程式的時間複雜度為 $O(n log n)$ ，從文件讀入固定n個資料並對此做排序，每次都是建置好後交換n次，故時間複雜度為 $O(nlogn)$。
-   - 詳細分析: $Tw​(n)$= $Tw​(n−1)$+ $βlogn$ ⇒ $𝑇(𝑛)$= $𝛼𝑛$+ $∑𝛽log⁡𝑘$= $O(𝑛log⁡𝑛)$。  
+   - 詳細分析: $Tw​(n)$= $Tw​(n−1)$+ $βlogn$ ⇒ $𝑇(𝑛)$= $𝛼𝑛$+ $∑𝛽log⁡𝑘$= $O(𝑛log⁡𝑛)$。
+   -  \(T_{\mathrm{heap,avg}}(n)=\Theta(n\log n)\)
+   -  $\(T_{\mathrm{heap,avg}}(n)=\Theta(n\log n)\)$
 2. 空間複雜度：空間複雜度為 $O(1)$，原地排序，只需常數級輔助變數，不含輸入陣列。  
    - 詳細分析: $S_{\mathrm{heap}}(n)=\sum_{k=1}^{m}O(1)=m\cdot O(1)=\Theta(1)$。   
 ### Worst case:
