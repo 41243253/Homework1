@@ -391,14 +391,18 @@ void permute(int* arr, int n) {
 ```
 此片段為將兩筆不同的資料合併在一起
 ```cpp
-// 合併 [l..m] 和 [m+1..r]
+// 合併排序（遞迴版）
 void merge(int* a, int l, int m, int r, int* tmp) {
+    // 把目前區間[l..r]暫存到tmp陣列中
     for (int i = l; i <= r; ++i) tmp[i] = a[i];
+
     int i = l, j = m + 1, k = l;
+    // 合併左邊[l..m]和右邊[m+1..r]，兩邊都是已排序
     while (i <= m && j <= r) {
-        if (tmp[i] <= tmp[j]) a[k++] = tmp[i++];
-        else                  a[k++] = tmp[j++];
+        if (tmp[i] <= tmp[j]) a[k++] = tmp[i++]; // 小的先放進主陣列
+        else a[k++] = tmp[j++];
     }
+    // 把左邊或右邊剩下的資料直接接上去
     while (i <= m) a[k++] = tmp[i++];
     while (j <= r) a[k++] = tmp[j++];
 }
@@ -407,11 +411,11 @@ void merge(int* a, int l, int m, int r, int* tmp) {
 ```cpp
 // 遞迴 Merge Sort
 void mergeSort(int* a, int l, int r, int* tmp) {
-    if (l >= r) return;
-    int m = (l + r) / 2;
-    mergeSort(a, l, m, tmp);
-    mergeSort(a, m + 1, r, tmp);
-    merge(a, l, m, r, tmp);
+    if (l >= r) return; // 區間只有一個元素或無元素時結束
+    int m = (l + r) / 2; // 找中間
+    mergeSort(a, l, m, tmp);   // 左邊遞迴
+    mergeSort(a, m + 1, r, tmp); // 右邊遞迴
+    merge(a, l, m, r, tmp);   // 合併左右區間
 }
 ```
 以下為主程式的片段程式碼:  
@@ -608,30 +612,29 @@ void printMemoryUsage() {
 template <class T>
 void Adjust(T* a, const int root, const int n)
 {
-    T e = a[root];
+    T e = a[root]; // 暫存root
     int j;
     for (j = 2 * root; j <= n; j *= 2)
-    {
-        if (j < n && a[j] < a[j + 1]) j++;
-        if (e >= a[j]) break;
-        a[j / 2] = a[j];
+    { // 往下找
+        if (j < n && a[j] < a[j + 1]) j++; // 找左右子中較大的
+        if (e >= a[j]) break; // 如果e已經比子節點大，停止
+        a[j / 2] = a[j]; // 上移子節點
     }
-    a[j / 2] = e;
+    a[j / 2] = e; // 放入正確位置
 }
 
 // 堆積排序
 template <class T>
 void HeapSort(T* a, const int n)
 {
-    // 建立堆積
-    for (int i = n / 2; i >= 1; i--)
-    {
+    // 堆積
+    for (int i = n / 2; i >= 1; i--) {
         Adjust(a, i, n);
     }
-
+    // 不斷取出最大值，並調整剩下的堆積
     for (int i = n - 1; i >= 1; i--) {
-        swap(a[1], a[i + 1]);
-        Adjust(a, 1, i);
+        swap(a[1], a[i + 1]); // 最大的元素移到最後
+        Adjust(a, 1, i); // 調整堆積
     }
 }
 ```
