@@ -86,9 +86,9 @@ int main() {
     if (mode == 1) {
         // Average Case: 從 data.txt 讀入 n 筆資料，重複排序 2000 次取平均
         int* orig = new int[n + 1];
-        ifstream fin("data.txt");
+        ifstream fin("testdata1000.txt");
         if (!fin) {
-            cerr << "無法開啟 data.txt\n";
+            cerr << "無法開啟 testdata1000.txt\n";
             delete[] orig;
             return 1;
         }
@@ -268,9 +268,9 @@ void printMemoryUsage() {
    if (mode == 1) {
         // Average Case: 從檔案讀資料，重複排序2000次
         int* orig = new int[n + 1];
-        ifstream fin("data.txt");
+        ifstream fin("testdata1000.txt");
         if (!fin) {
-            cerr << "無法開啟 data.txt\n";
+            cerr << "無法開啟 testdata1000.txt\n";
             delete[] orig;
             return 1;
         }
