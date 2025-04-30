@@ -389,6 +389,18 @@ void permute(int* arr, int n) {
 }
 
 ```
+此片段為記憶體記錄程式
+```cpp
+// 顯示記憶體使用程度
+void printMemoryUsage() {
+    PROCESS_MEMORY_COUNTERS memInfo;
+    GetProcessMemoryInfo(GetCurrentProcess(), &memInfo, sizeof(memInfo));
+    cout << "----------------------------------------------------------\n";
+    cout << "Memory Usage Information:\n";
+    cout << "Working Set Size: " << memInfo.WorkingSetSize / 1024 << " KB\n";
+    cout << "----------------------------------------------------------\n";
+}
+```
 此片段為將兩筆不同的資料合併在一起
 ```cpp
 // 合併排序（遞迴版）
