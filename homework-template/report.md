@@ -3,7 +3,7 @@
 
 作業一
 
-# 解題說明
+## 解題說明
 
 本題要求實現Insertion sort、Quick sort、Merge sort、Heap sort和Composite sort的
 Worst case和Average case所耗費的時間，並計算其空間複雜度
