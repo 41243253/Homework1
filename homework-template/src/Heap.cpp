@@ -30,31 +30,29 @@ void printMemoryUsage() {
 template <class T>
 void Adjust(T* a, const int root, const int n)
 {
-    T e = a[root];
+    T e = a[root]; // 暫存root
     int j;
     for (j = 2 * root; j <= n; j *= 2)
-    {
-        if (j < n && a[j] < a[j + 1]) j++;
-        if (e >= a[j]) break;
-        a[j / 2] = a[j];
+    { // 往下找
+        if (j < n && a[j] < a[j + 1]) j++; // 找左右子中較大的
+        if (e >= a[j]) break; // 如果e已經比子節點大，停止
+        a[j / 2] = a[j]; // 上移子節點
     }
-    a[j / 2] = e;
+    a[j / 2] = e; // 放入正確位置
 }
-
 
 // 堆積排序
 template <class T>
 void HeapSort(T* a, const int n)
 {
-    // 建立堆積
-    for (int i = n / 2; i >= 1; i--)
-    {
+    // 堆積
+    for (int i = n / 2; i >= 1; i--) {
         Adjust(a, i, n);
     }
-
+    // 不斷取出最大值，並調整剩下的堆積
     for (int i = n - 1; i >= 1; i--) {
-        swap(a[1], a[i + 1]);
-        Adjust(a, 1, i);
+        swap(a[1], a[i + 1]); // 最大的元素移到最後
+        Adjust(a, 1, i); // 調整堆積
     }
 }
 
